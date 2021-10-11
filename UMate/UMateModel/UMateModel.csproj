@@ -10,6 +10,7 @@
     <None Remove="Microsoft.EntityFrameworkCore.Design" />
     <None Remove="Contexts\" />
     <None Remove="Entities\" />
+    <None Remove="Models\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.19" />
@@ -22,5 +23,6 @@
   <ItemGroup>
     <Folder Include="Contexts\" />
     <Folder Include="Entities\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 </Project>

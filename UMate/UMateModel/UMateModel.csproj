@@ -11,6 +11,7 @@
     <None Remove="Contexts\" />
     <None Remove="Entities\" />
     <None Remove="Models\" />
+    <None Remove="Entities\LectureInfo\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.19" />
@@ -24,5 +25,6 @@
     <Folder Include="Contexts\" />
     <Folder Include="Entities\" />
     <Folder Include="Models\" />
+    <Folder Include="Entities\LectureInfo\" />
   </ItemGroup>
 </Project>

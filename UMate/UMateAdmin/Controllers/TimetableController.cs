@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Model.Contexts;
 using UMateModel.Entities.Timetable;
+using X.PagedList;
 
 namespace UMateAdmin.Controllers
 {
@@ -20,9 +21,9 @@ namespace UMateAdmin.Controllers
         }
 
         // GET: Timetable
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
-            return View(await _context.Timetable.ToListAsync());
+            return View(await _context.Timetable.OrderBy(t => t.CourseName).ToPagedListAsync(page ?? 1, 20));
         }
 
         // GET: Timetable/Details/5

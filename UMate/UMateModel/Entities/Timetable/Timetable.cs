@@ -6,10 +6,8 @@ namespace UMateModel.Entities.Timetable
 {
     public class Timetable
     {
-        [Required]
         public string UserId { get; set; }
 
-        [Required]
         public int TimetableId { get; set; }
 
         public string CourseId { get; set; }

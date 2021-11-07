@@ -12,7 +12,7 @@ namespace UMateModel.Migrations
                 {
                     TimetableId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
                     CourseId = table.Column<string>(nullable: true),
                     CourseName = table.Column<string>(nullable: true),
                     RoomName = table.Column<string>(nullable: true),

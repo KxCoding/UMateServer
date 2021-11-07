@@ -10,7 +10,7 @@ using Model.Contexts;
 namespace UMateModel.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211107161634_TimetableModel")]
+    [Migration("20211107190656_TimetableModel")]
     partial class TimetableModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -184,7 +184,6 @@ namespace UMateModel.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TimetableId");

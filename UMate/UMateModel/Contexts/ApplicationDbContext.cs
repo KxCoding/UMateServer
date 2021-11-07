@@ -4,12 +4,15 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using UMateModel.Entities.Timetable;
 using UMateModel.Models;
 
 namespace Model.Contexts
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
     {
+        public DbSet<Timetable> Timetable { get; set; }
+
         public ApplicationDbContext()
         {
 

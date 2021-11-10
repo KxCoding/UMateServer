@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace UMateModel.Entities.LectureInfo
+namespace UMateModel.Entities.UMateBoard
 {
     public class Example
     {

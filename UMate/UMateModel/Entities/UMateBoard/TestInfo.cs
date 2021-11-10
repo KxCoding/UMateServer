@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace UMateModel.Entities.LectureInfo
+namespace UMateModel.Entities.UMateBoard
 {
     public class TestInfo
     {
@@ -31,6 +31,6 @@ namespace UMateModel.Entities.LectureInfo
         public List<Example> Examples { get; set; }
 
         public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }  //수정, 삭제 기능 없으므로 삭제 
+        public DateTime UpdatedAt { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace UMateModel.Entities.LectureInfo
+namespace UMateModel.Entities.UMateBoard
 {
     public class Professor
     {

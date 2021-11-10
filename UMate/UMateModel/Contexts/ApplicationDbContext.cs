@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using UMateModel.Entities.Timetable;
+using UMateModel.Entities.UMateBoard;
 using UMateModel.Models;
 
 namespace Model.Contexts
@@ -30,5 +31,28 @@ namespace Model.Contexts
                 builder.UseSqlServer("Server=tcp:practice1008.database.windows.net,1433;Initial Catalog=UMate;Persist Security Info=False;User ID=test;Password=abcd1234@;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
+
+
+        /// <summary>
+        /// 게시판
+        /// </summary>
+        public DbSet<Board> Board { get; set; }
+        public DbSet<Category> Category { get; set; }
+        public DbSet<Comment> Comment { get; set; }
+        public DbSet<LikeComment> LikeComment { get; set; }
+        public DbSet<LikePost> LikePost { get; set; }
+        public DbSet<Post> Post { get; set; }
+        public DbSet<PostImage> PostImage { get; set; }
+        public DbSet<ScrapPost> ScrapPost { get; set; }
+
+
+        /// <summary>
+        /// 강의평가 게시판
+        /// </summary>
+        public DbSet<Professor> Professor { get; set; }
+        public DbSet<LectureInfo> LectureInfo { get; set; }
+        public DbSet<LectureReview> LectureReview { get; set; }
+        public DbSet<TestInfo> TestInfo { get; set; }
+        public DbSet<Example> Example { get; set; }
     }
 }

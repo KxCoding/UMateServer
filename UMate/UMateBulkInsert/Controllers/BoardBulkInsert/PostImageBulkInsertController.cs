@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using BoardModel.Models;
-using BoardModel.Contexts;
+using UMateModel.Models;
+using UMateModel.Contexts;
+using UMateModel.Models.UMateBoard;
+using UMateModel.Entities.UMateBoard;
 
 namespace BoardBulkInsert.Controllers
 {
@@ -36,7 +38,7 @@ namespace BoardBulkInsert.Controllers
             {
                 return Ok(new ImagePostResponse
                 {
-                    ResultCode = ResultCode.NotFound,
+                    Code = ResultCode.NotFound,
                     Message = "존재하는 게시글이 없습니다."
                 });
             }
@@ -47,7 +49,7 @@ namespace BoardBulkInsert.Controllers
 
             return Ok(new ImagePostResponse
             {
-                ResultCode = ResultCode.Ok,
+                Code = ResultCode.Ok,
                 Image = postImage
             });
         }

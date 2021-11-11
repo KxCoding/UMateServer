@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using BoardModel.Models;
-using BoardModel.Contexts;
+using UMateModel.Models;
+using UMateModel.Contexts;
+using UMateModel.Models.UMateBoard;
+using UMateModel.Entities.UMateBoard;
 
 namespace BoardBulkInsert.Controllers
 {
@@ -40,7 +42,7 @@ namespace BoardBulkInsert.Controllers
             {
                 return Ok(new LectureReviewPostResponse
                 {
-                    ResultCode = ResultCode.LectureReviewExists,
+                    Code = ResultCode.LectureReviewExists,
                     Message = "이미 리뷰를 작성한 강의입니다."
                 });
             }
@@ -68,7 +70,7 @@ namespace BoardBulkInsert.Controllers
 
             return Ok(new LectureReviewPostResponse
             {
-                ResultCode = ResultCode.Ok,
+                Code = ResultCode.Ok,
                 LectureReview = newLectureReview
             });
         }

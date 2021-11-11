@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using BoardModel.Models;
-using BoardModel.Contexts;
+using UMateModel.Models;
+using UMateModel.Contexts;
+using UMateModel.Models.UMateBoard;
+using UMateModel.Entities.UMateBoard;
 
 namespace BoardBulkInsert.Controllers
 {
@@ -43,7 +45,7 @@ namespace BoardBulkInsert.Controllers
 
             return Ok(new CommentPostResponse
             {
-                ResultCode = ResultCode.Ok,
+                Code = ResultCode.Ok,
                 Comment = newComment
             });
         }

@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using BoardModel.Models;
-using BoardModel.Contexts;
+using UMateModel.Models;
+using UMateModel.Contexts;
+using UMateModel.Models.UMateBoard;
+using UMateModel.Entities.UMateBoard;
 
 namespace BoardBulkInsert.Controllers
 {
@@ -50,7 +52,7 @@ namespace BoardBulkInsert.Controllers
 
                 return Ok(new BoardPostResponse
                 {
-                    ResultCode = ResultCode.BoardExists,
+                    Code = ResultCode.BoardExists,
                     Message = "이미 존재하는 게시판입니다."
                 });
             }
@@ -66,7 +68,7 @@ namespace BoardBulkInsert.Controllers
 
             return Ok(new BoardPostResponse
             {
-                ResultCode = ResultCode.Ok,
+                Code = ResultCode.Ok,
                 Board = newBoard
             });
         }

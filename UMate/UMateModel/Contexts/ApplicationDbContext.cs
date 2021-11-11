@@ -8,7 +8,7 @@ using UMateModel.Entities.Timetable;
 using UMateModel.Entities.UMateBoard;
 using UMateModel.Models;
 
-namespace Model.Contexts
+namespace UMateModel.Contexts
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
     {

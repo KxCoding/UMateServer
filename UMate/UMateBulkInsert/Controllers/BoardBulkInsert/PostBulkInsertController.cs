@@ -1,0 +1,57 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using BoardModel.Models;
+using BoardModel.Contexts;
+
+namespace BoardBulkInsert.Controllers
+{
+    [Route("bi/boardPost")]
+    [ApiController]
+    public class PostBulkInsertController : ControllerBase
+    {
+        private readonly ApplicationDbContext _context;
+
+        public PostBulkInsertController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+
+        // POST: api/PostApi
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPost]
+        public async Task<ActionResult<PostPostResponse>> PostPost(PostPostData post)
+        {
+            //Post는 중복을 제한하지 말아야한다. 사용자가 작성하는 건 다 올라가야 하므로
+            var newPost = new Post
+            {
+                UserId = post.UserId,
+                BoardId = post.BoardId,
+                Title = post.Title,
+                Content = post.Content,
+                LikeCnt = post.LikeCnt,
+                CommentCnt = post.CommentCnt,
+                ScrapCnt = post.ScrapCnt,
+                CategoryNumber = post.CategoryNumber,
+
+                CreatedAt = DateTime.UtcNow
+            };
+
+            _context.Post.Add(newPost);
+            await _context.SaveChangesAsync();
+
+            return Ok(new PostPostResponse
+            {
+                ResultCode = ResultCode.Ok,
+                Post = newPost
+            });
+        }
+
+    }
+}

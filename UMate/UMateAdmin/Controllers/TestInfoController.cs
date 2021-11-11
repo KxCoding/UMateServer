@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using UMateModel.Contexts;
 using UMateModel.Entities.UMateBoard;
 
-namespace BoardAdmin.Controllers
+namespace UMateAdmin.Controllers
 {
     public class TestInfoController : Controller
     {

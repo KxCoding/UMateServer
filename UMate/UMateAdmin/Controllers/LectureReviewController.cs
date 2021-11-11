@@ -9,7 +9,7 @@ using UMateModel.Contexts;
 using UMateModel.Entities.UMateBoard;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace BoardAdmin.Controllers
+namespace UMateAdmin.Controllers
 {
     public class LectureReviewController : Controller
     {

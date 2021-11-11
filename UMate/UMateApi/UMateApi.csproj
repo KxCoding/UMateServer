@@ -27,10 +27,12 @@
     <None Remove="Microsoft.EntityFrameworkCore.Tools" />
     <None Remove="Microsoft.EntityFrameworkCore.Sqlite" />
     <None Remove="Models\" />
+    <None Remove="Controllers\Board\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />
+    <Folder Include="Controllers\Board\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UMateModel\UMateModel.csproj">

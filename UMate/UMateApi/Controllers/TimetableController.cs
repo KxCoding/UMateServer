@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Model.Contexts;
+using UMateModel.Contexts;
 using UMateApi.Models;
 using UMateModel.Entities.Timetable;
 using UMateModel.Models;

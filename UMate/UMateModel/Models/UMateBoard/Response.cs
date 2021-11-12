@@ -119,7 +119,7 @@ namespace UMateModel.Models.UMateBoard
     public class CommentListResponse : CommonResponse
     {
         public int LastId { get; set; }
-        public List<Comment> List { get; set; }
+        public List<CommentDto> List { get; set; }
     }
 
     public class LikeCommentListResponse<T>

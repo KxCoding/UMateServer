@@ -25,12 +25,22 @@ namespace BoardApi.Controllers
 
         // GET: api/CommentApi
         [HttpGet]
-        public async Task<ActionResult<CommentListResponse<Comment>>> GetCommentList(int postId)
+        public async Task<ActionResult<CommentListResponse<CommentDto>>> GetCommentList(int postId)
         {
-            // 날짜 정렬을 서버에서 하면 안되고 클라이언트에서 해야하나?
             var comments = await _context.Comment
                 .Where(c => c.PostId == postId)
+                .Select(c => new CommentDto(c))
                 .ToListAsync();
+
+            foreach (CommentDto comment in comments)
+            {
+                var user = await _context.Users
+                    .Where(u => u.Id == comment.UserId)
+                    .FirstOrDefaultAsync();
+
+                comment.UserName = user.UserName;
+                comment.ProfileUrl = user.SelectedProfileImage;
+            }
 
             var lastId = await _context.Comment
                 .Select(c => c.CommentId)

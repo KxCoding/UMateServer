@@ -37,6 +37,16 @@ namespace BoardApi.Controllers
                     .Select(p => new PostListDto(p))
                     .ToListAsync();
 
+                foreach (PostListDto post in myPostList)
+                {
+                    var user = await _context.Users
+                        .Where(u => u.Id == post.UserId)
+                        .FirstOrDefaultAsync();
+
+                    post.UserName = user.NickName;
+                }
+
+
                 return Ok(new MyPostListResponse
                 {
                     TotalCount = myPostList.Count,
@@ -54,6 +64,15 @@ namespace BoardApi.Controllers
                               .Select(c => new PostListDto(c.Post))
                               .Distinct()
                               .ToListAsync();
+
+                foreach (PostListDto post in myCommentPostList)
+                {
+                    var user = await _context.Users
+                        .Where(u => u.Id == post.UserId)
+                        .FirstOrDefaultAsync();
+
+                    post.UserName = user.NickName;
+                }
 
                 return Ok(new MyCommentListResponse
                 {
@@ -73,6 +92,15 @@ namespace BoardApi.Controllers
                 .Distinct()
                 .ToListAsync();
 
+                foreach (PostListDto post in scrapList)
+                {
+                    var user = await _context.Users
+                        .Where(u => u.Id == post.UserId)
+                        .FirstOrDefaultAsync();
+
+                    post.UserName = user.NickName;
+                }
+
                 return Ok(new ScrapPostListResponse
                 {
                     TotalCount = scrapList.Count,
@@ -90,6 +118,15 @@ namespace BoardApi.Controllers
                     .Distinct()
                     .ToListAsync();
 
+                foreach (PostListDto post in popularPostList)
+                {
+                    var user = await _context.Users
+                        .Where(u => u.Id == post.UserId)
+                        .FirstOrDefaultAsync();
+
+                    post.UserName = user.NickName;
+                }
+
                 return Ok(new ScrapPostListResponse
                 {
                     TotalCount = popularPostList.Count,
@@ -103,6 +140,15 @@ namespace BoardApi.Controllers
                 .OrderByDescending(p => p.CreatedAt)
                 .Select(p => new PostListDto(p))
                 .ToListAsync();
+
+            foreach (PostListDto post in posts)
+            {
+                var user = await _context.Users
+                    .Where(u => u.Id == post.UserId)
+                    .FirstOrDefaultAsync();
+
+                post.UserName = user.NickName;
+            }
 
             return Ok(new PostListResponse
             {
@@ -143,6 +189,13 @@ namespace BoardApi.Controllers
                 .Include(p => p.PostImages)
                 .Select(p => new PostDto(p))
                 .FirstOrDefaultAsync();
+
+            var user = await _context.Users
+                .Where(u => u.Id == post.UserId)
+                .FirstOrDefaultAsync();
+
+            post.UserName = user.UserName;
+            post.ProfileUrl = user.SelectedProfileImage;
 
             if (post == null)
             {

@@ -10,6 +10,8 @@ namespace UMateModel.Models.UMateBoard
         {
             PostId = post.PostId;
             UserId = post.UserId;
+            UserName = "";
+            ProfileUrl = "";
             BoardId = post.BoardId;
             Title = post.Title;
             Content = post.Content;
@@ -23,6 +25,8 @@ namespace UMateModel.Models.UMateBoard
         public int PostId { get; set; }
 
         public string UserId { get; set; }
+        public string UserName { get; set; }
+        public string ProfileUrl { get; set; }
 
         public int BoardId { get; set; }
         public string Title { get; set; }

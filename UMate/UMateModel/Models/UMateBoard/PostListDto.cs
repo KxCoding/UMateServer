@@ -11,18 +11,19 @@ namespace UMateModel.Models.UMateBoard
             PostId = post.PostId;
             Title = post.Title;
             Content = post.Content;
-            CreatedAt = post.CreatedAt;
-            // Id로 바꾸 
-            UserName = post.UserId;
+            UserId = post.UserId;
+            UserName = "";
             LikeCnt = post.LikeCnt;
             CommentCnt = post.CommentCnt;
             ScrapCnt = post.ScrapCnt;
             CategoryNumber = post.CategoryNumber;
+            CreatedAt = post.CreatedAt;
         }
 
         public int PostId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
+        public string UserId { get; set; }
         public string UserName { get; set; }
         public int LikeCnt { get; set; }
         public int CommentCnt { get; set; }
@@ -30,4 +31,5 @@ namespace UMateModel.Models.UMateBoard
         public int CategoryNumber { get; set; }
         public DateTime CreatedAt { get; set; }
     }
+
 }

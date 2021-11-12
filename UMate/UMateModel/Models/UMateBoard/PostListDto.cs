@@ -9,10 +9,12 @@ namespace UMateModel.Models.UMateBoard
         public PostListDto(Post post)
         {
             PostId = post.PostId;
-            Title = post.Title;
-            Content = post.Content;
             UserId = post.UserId;
             UserName = "";
+
+            Title = post.Title;
+            Content = post.Content;
+            
             LikeCnt = post.LikeCnt;
             CommentCnt = post.CommentCnt;
             ScrapCnt = post.ScrapCnt;
@@ -21,10 +23,12 @@ namespace UMateModel.Models.UMateBoard
         }
 
         public int PostId { get; set; }
-        public string Title { get; set; }
-        public string Content { get; set; }
         public string UserId { get; set; }
         public string UserName { get; set; }
+
+        public string Title { get; set; }
+        public string Content { get; set; }
+        
         public int LikeCnt { get; set; }
         public int CommentCnt { get; set; }
         public int ScrapCnt { get; set; }

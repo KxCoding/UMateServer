@@ -100,12 +100,21 @@ namespace BoardApi.Controllers
                 newComment.OriginalCommentId = newComment.CommentId;
             }
 
+            
             await _context.SaveChangesAsync();
+
+            var user = await _context.Users
+                .Where(u => u.Id == comment.UserId)
+                .FirstOrDefaultAsync();
+
+            var userComment = new CommentDto(newComment);
+            userComment.UserName = user.UserName;
+            userComment.ProfileUrl = user.SelectedProfileImage;
 
             return Ok(new CommentPostResponse
             {
                 Code = ResultCode.Ok,
-                Comment = newComment
+                Comment = userComment
             });
         }
 

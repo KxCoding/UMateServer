@@ -22,7 +22,7 @@ namespace UMateModel.Models.UMateBoard
 
     public class CommentPostResponse : CommonResponse
     {
-        public Comment Comment { get; set; }
+        public CommentDto Comment { get; set; }
     }
 
     public class ImagePostResponse : CommonResponse

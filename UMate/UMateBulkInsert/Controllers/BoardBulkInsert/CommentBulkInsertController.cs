@@ -46,7 +46,7 @@ namespace BoardBulkInsert.Controllers
             return Ok(new CommentPostResponse
             {
                 Code = ResultCode.Ok,
-                Comment = newComment
+                Comment = new CommentDto(newComment)
             });
         }
 

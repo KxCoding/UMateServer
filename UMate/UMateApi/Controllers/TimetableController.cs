@@ -15,7 +15,7 @@ using UMateModel.Models;
 
 namespace UMateApi.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("[controller]")]
     [ApiController]
     public class TimetableController : ControllerBase
@@ -195,7 +195,7 @@ namespace UMateApi.Controllers
             }
 
             var timetable = await _context.Timetable
-                .Where(t => t.UserId == user.Id)
+                .Where(t => t.UserId == user.Id && t.TimetableId == id)
                 .FirstOrDefaultAsync();
 
             if (timetable == null)

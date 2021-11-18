@@ -8,7 +8,8 @@ namespace UMateModel.Models
         public string NickName { get; set; }
 
         public string YearOfAdmission { get; set; }
-        public string UniversityName { get; set; }
+        //public string UniversityName { get; set; }
+        public int? UniversityId { get; set; }
         public bool UniversityConfirmed { get; set; }
 
         public string SelectedProfileImage { get; set; }

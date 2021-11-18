@@ -34,6 +34,9 @@ namespace UMateModel.Contexts
         }
 
 
+        // Common
+        public DbSet<University> University { get; set; }
+
         /// <summary>
         /// 게시판
         /// </summary>

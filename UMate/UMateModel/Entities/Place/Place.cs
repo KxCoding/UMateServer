@@ -14,13 +14,9 @@ namespace UMateModel.Entities.Place
         [Required]
         public string Name { get; set; }
 
-        /*
         public int UniversityId { get; set; }
         [JsonIgnore]
         public University University { get; set; }
-        */
-
-        public string UniversityName { get; set; }
 
         public string District { get; set; }
 

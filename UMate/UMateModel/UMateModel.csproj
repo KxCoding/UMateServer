@@ -14,6 +14,8 @@
     <None Remove="Entities\LectureInfo\" />
     <None Remove="Entities\Timetable\" />
     <None Remove="Models\UMateBoard\" />
+    <None Remove="Entities\Place\" />
+    <None Remove="Microsoft.AspNetCore.Identity.UI" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.19" />
@@ -22,6 +24,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.19" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Contexts\" />
@@ -30,5 +33,6 @@
     <Folder Include="Entities\UMateBoard\" />
     <Folder Include="Entities\Timetable\" />
     <Folder Include="Models\UMateBoard\" />
+    <Folder Include="Entities\Place\" />
   </ItemGroup>
 </Project>

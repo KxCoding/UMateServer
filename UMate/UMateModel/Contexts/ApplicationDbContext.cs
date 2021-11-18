@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using UMateModel.Entities.Timetable;
 using UMateModel.Entities.UMateBoard;
+using UMateModel.Entities.Place;
 using UMateModel.Models;
 
 namespace UMateModel.Contexts
@@ -54,5 +55,9 @@ namespace UMateModel.Contexts
         public DbSet<LectureReview> LectureReview { get; set; }
         public DbSet<TestInfo> TestInfo { get; set; }
         public DbSet<Example> Example { get; set; }
+
+        /// Place
+        public DbSet<Place> Place { get; set; }
+        public DbSet<PlaceBookmark> PlaceBookmark { get; set; }
     }
 }

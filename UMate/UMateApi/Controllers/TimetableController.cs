@@ -165,7 +165,8 @@ namespace UMateApi.Controllers
                 CourseDay = timetable.CourseDay,
                 StartTime = timetable.StartTime,
                 EndTime = timetable.EndTime,
-                BackgroundColor = timetable.BackgroundColor
+                BackgroundColor = timetable.BackgroundColor,
+                TextColor = timetable.TextColor
             };
 
             _context.Timetable.Add(newTimetable);

@@ -25,5 +25,7 @@ namespace UMateModel.Entities.Timetable
         public string EndTime { get; set; }
 
         public string BackgroundColor { get; set; }
+
+        public string TextColor { get; set; }
     }
 }

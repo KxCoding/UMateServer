@@ -23,6 +23,7 @@ namespace UMateApi.Models
             StartTime = timetable.StartTime;
             EndTime = timetable.EndTime;
             BackgroundColor = timetable.BackgroundColor;
+            TextColor = timetable.TextColor;
         }
 
         public int TimetableId { get; set; }
@@ -42,6 +43,8 @@ namespace UMateApi.Models
         public string EndTime { get; set; }
 
         public string BackgroundColor { get; set; }
+
+        public string TextColor { get; set; }
     }
 
 }

@@ -172,8 +172,9 @@ namespace UMateApi.Controllers
             await _context.SaveChangesAsync();
 
             //return CreatedAtAction("GetTimetable", new { id = timetable.TimetableId }, timetable);
-            return Ok(new CommonResponse
+            return Ok(new TimetablePostResponse
             {
+                TimetableId = newTimetable.TimetableId,
                 Code = ResultCode.Ok,
                 Message = "Timetable POST OK"
             });

@@ -15,5 +15,9 @@ namespace UMateModel.Models
         public static int LectureInfoExists = 2001;
         public static int LectureReviewExists = 2002;
         public static int testInfoExists = 2003;
+
+        // Place
+        public static int ExistsAlready = 5000;
+        public static int CannotFindData = 6000;
     }
 }

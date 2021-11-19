@@ -1,0 +1,148 @@
+@model UMateModel.Entities.Place.Place
+
+@{ ViewData["Title"] = "Details"; }
+
+<h1>Details</h1>
+
+<div>
+    <h4>Place</h4>
+    @if (Model.ThumbnailImageUrl != null)
+    { <img src="@Model.ThumbnailImageUrl" style="width: 200px;" /> }
+
+    <hr />
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PlaceId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PlaceId)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.University)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => Model.University.Name)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.District)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.District)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Latitude)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Latitude)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Longitude)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Longitude)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Keywords)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Keywords)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Tel)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Tel)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InstagramId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InstagramId)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WebsiteUrl)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WebsiteUrl)
+        </dd>
+    </dl>
+
+    <hr />
+
+    <table class="table" style="border:1px">
+        <thead>
+            <tr>
+                <th>image0</th>
+                <th>image1</th>
+                <th>image2</th>
+                <th>image3</th>
+                <th>image4</th>
+                <th>image5</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.DisplayFor(model => model.PlaceImageUrl0)</td>
+                <td>@Html.DisplayFor(model => model.PlaceImageUrl1)</td>
+                <td>@Html.DisplayFor(model => model.PlaceImageUrl2)</td>
+                <td>@Html.DisplayFor(model => model.PlaceImageUrl3)</td>
+                <td>@Html.DisplayFor(model => model.PlaceImageUrl4)</td>
+                <td>@Html.DisplayFor(model => model.PlaceImageUrl5)</td>
+            </tr>
+            <tr>
+                <td>
+                    @if (Model.PlaceImageUrl0 != null)
+                    {<img src="@Model.PlaceImageUrl0" style="width: 200px;" />}
+                </td>
+                <td>
+                    @if (Model.PlaceImageUrl1 != null)
+                    {<img src="@Model.PlaceImageUrl1" style="width: 200px;" />}
+                </td>
+                <td>
+                    @if (Model.PlaceImageUrl2 != null)
+                    {<img src="@Model.PlaceImageUrl2" style="width: 200px;" />}
+                </td>
+                <td>
+                    @if (Model.PlaceImageUrl3 != null)
+                    {<img src="@Model.PlaceImageUrl3" style="width: 200px;" />}
+                </td>
+                <td>
+                    @if (Model.PlaceImageUrl4 != null)
+                    {<img src="@Model.PlaceImageUrl4" style="width: 200px;" />}
+                </td>
+                <td>
+                    @if (Model.PlaceImageUrl5 != null)
+                    {<img src="@Model.PlaceImageUrl5" style="width: 200px;" />}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.PlaceId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

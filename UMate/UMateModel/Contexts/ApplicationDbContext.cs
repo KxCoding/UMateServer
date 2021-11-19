@@ -8,6 +8,7 @@ using UMateModel.Entities.Timetable;
 using UMateModel.Entities.UMateBoard;
 using UMateModel.Entities.Place;
 using UMateModel.Models;
+using UMateModel.Entities.Common;
 
 namespace UMateModel.Contexts
 {

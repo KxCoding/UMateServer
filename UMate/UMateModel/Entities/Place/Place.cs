@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
+using UMateModel.Entities.Common;
 
 namespace UMateModel.Entities.Place
 {

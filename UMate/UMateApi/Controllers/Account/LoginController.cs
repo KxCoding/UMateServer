@@ -50,7 +50,7 @@ namespace UMateApi.Controllers
                     Configuration["JwtIssuer"],
                     Configuration["JwtAudience"],
                     claims,
-                    expires: DateTime.UtcNow.AddDays(7),
+                    expires: DateTime.UtcNow.AddMonths(2),
                     signingCredentials: creds
                     );
 
@@ -80,62 +80,26 @@ namespace UMateApi.Controllers
                         {
                             Code = ResultCode.Ok,
                             UserId = user.Id,
-                            Token = token
+                            Email = user.Email,
+                            Token = token,
+                            UserName = user.UserName,
+                            NickName = user.NickName,
+                            YearOfAdmission = user.YearOfAdmission
                         });
-                    }
-                }
-            }
-
-            return Ok(new LoginResponse
-            {
-                Code = ResultCode.Fail
-            });
-        }
-
-        [HttpPost("sso")]
-        public async Task<IActionResult> PostSSO(SocialLoginPostData data)
-        {
-            var result = await _signInManager.ExternalLoginSignInAsync(data.Provider, data.Id, false);
-            if (result.Succeeded)
-            {
-                var user = await _userManager.FindByEmailAsync(data.Email);
-                if (user != null)
-                {
-
-                    var token = GetApiToken(user);
-                    if (!token.Contains("fail"))
+                    } else
                     {
                         return Ok(new LoginResponse
                         {
-                            Code = ResultCode.Ok,
-                            UserId = user.Id,
-                            Token = token
+                            Code = ResultCode.Fail,
+                            Message = "토큰 생성 실패"
                         });
                     }
-                }
-            }
-
-            var newUser = new ApplicationUser
-            {
-                UserName = data.Email,
-                Email = data.Email,
-                EmailConfirmed = true
-            };
-
-            var createResult = await _userManager.CreateAsync(newUser);
-            if (createResult.Succeeded)
-            {
-                var loginInfo = new UserLoginInfo(data.Provider, data.Id, data.Email);
-                var addResult = await _userManager.AddLoginAsync(newUser, loginInfo);
-
-                if (addResult.Succeeded)
+                } else
                 {
                     return Ok(new LoginResponse
                     {
-                        Code = ResultCode.Ok,
-                        Message = "join & login success",
-                        UserId = newUser.Id,
-                        Token = GetApiToken(newUser)
+                        Code = ResultCode.Fail,
+                        Message = "사용자를 찾을 수 없습니다."
                     });
                 }
             }
@@ -143,7 +107,7 @@ namespace UMateApi.Controllers
             return Ok(new LoginResponse
             {
                 Code = ResultCode.Fail,
-                Message = createResult.Errors.First().Description
+                Message = "로그인 정보를 확인해주세요."
             });
         }
     }

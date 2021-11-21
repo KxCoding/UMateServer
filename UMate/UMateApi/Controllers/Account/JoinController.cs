@@ -68,7 +68,11 @@ namespace UMateApi.Controllers
             var user = new ApplicationUser
             {
                 UserName = data.Email,
-                Email = data.Email
+                Email = data.Email,
+                NickName = data.NickName,
+                YearOfAdmission = data.YearOfAdmission,
+                EmailConfirmed = true,
+                UpdateDate = DateTime.UtcNow
             };
 
             var result = await _userManager.CreateAsync(user, data.Password);
@@ -79,7 +83,11 @@ namespace UMateApi.Controllers
                 {
                     Code = ResultCode.Ok,
                     UserId = user.Id,
-                    Token = GetApiToken(user)
+                    Email = user.Email,
+                    Token = GetApiToken(user),
+                    UserName = data.UserName,
+                    NickName = data.NickName,
+                    YearOfAdmission = data.YearOfAdmission
                 });
             }
 

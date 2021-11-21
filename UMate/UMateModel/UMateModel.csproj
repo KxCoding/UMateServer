@@ -17,6 +17,7 @@
     <None Remove="Entities\Place\" />
     <None Remove="Microsoft.AspNetCore.Identity.UI" />
     <None Remove="Entities\Common\" />
+    <None Remove="Models\Account\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.19" />
@@ -36,5 +37,6 @@
     <Folder Include="Models\UMateBoard\" />
     <Folder Include="Entities\Place\" />
     <Folder Include="Entities\Common\" />
+    <Folder Include="Models\Account\" />
   </ItemGroup>
 </Project>

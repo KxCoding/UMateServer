@@ -29,12 +29,14 @@
     <None Remove="Models\" />
     <None Remove="Controllers\Board\" />
     <None Remove="Controllers\Account\" />
+    <None Remove="Controllers\Place\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />
     <Folder Include="Controllers\Board\" />
     <Folder Include="Controllers\Account\" />
+    <Folder Include="Controllers\Place\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UMateModel\UMateModel.csproj">

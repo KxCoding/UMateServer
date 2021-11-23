@@ -8,6 +8,7 @@ using UMateModel.Contexts;
 using UMateModel.Models;
 using UMateModel.Entities.Common;
 using UMateModel.Models.UMatePlace;
+using UMateModel.Models.UMateUniversity;
 
 namespace UMateBulkInsert.Controllers
 {

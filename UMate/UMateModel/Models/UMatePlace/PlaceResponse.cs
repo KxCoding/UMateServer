@@ -5,35 +5,33 @@ using UMateModel.Models;
 
 namespace UMateModel.Models.UMatePlace
 {
-    // post response
+    public class PlaceCommonResponse
+    {
+        public int Code { get; set; }
+        public string Message { get; set; }
+        public string ClientAlertMessage { get; set; }
+    }
 
-    public class PlacePostResponse : CommonResponse
+    public class PlacePostResponse : PlaceCommonResponse
     {
         public PlacePostData Place { get; set; }
     }
 
-    public class UniversityPostResponse : CommonResponse
+    public class PlaceListResponse : PlaceCommonResponse
     {
-        public University University { get; set; }
-    }
-
-    // get response
-
-    public class PlaceListResponse : CommonResponse
-    {
-        public string UniversityName { get; set; }
+        public UniversityPlaceMainDto University { get; set; }
 
         public int TotalCount { get; set; }
 
         public List<PlaceSimpleDto> Places { get; set; }
     }
 
-    public class PlaceResponse : CommonResponse
+    public class PlaceResponse : PlaceCommonResponse
     {
         public PlaceDto Place { get; set; }
     }
 
-    public class BookmarkListResponse : CommonResponse
+    public class PlaceBookmarkListResponse : PlaceCommonResponse
     {
         public string UserId { get; set; }
 
@@ -42,10 +40,11 @@ namespace UMateModel.Models.UMatePlace
         public List<PlaceSimpleDto> Places { get; set; }
     }
 
-    public class BookmarkCheckResponse : CommonResponse
+    public class PlaceBookmarkCheckResponse : PlaceCommonResponse
     {
         public string UserId { get; set; }
         public string PlaceName { get; set; }
         public bool IsBookmarked { get; set; }
     }
+
 }

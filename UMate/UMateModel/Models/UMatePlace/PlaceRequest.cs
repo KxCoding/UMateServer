@@ -26,9 +26,6 @@ namespace UMateModel.Models.UMatePlace
 
     public class PlaceBookmarkPostData
     {
-        [Required]
-        public string UserId { get; set; }
-
         public int PlaceId { get; set; }
     }
 }

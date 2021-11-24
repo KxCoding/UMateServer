@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using UMateModel.Contexts;
 using UMateModel.Entities.UMateBoard;
 using UMateModel.Models;
@@ -12,6 +15,7 @@ using UMateModel.Models.UMateBoard;
 
 namespace BoardApi.Controllers
 {
+    [Authorize]
     [Route("api/likeComment")]
     [ApiController]
     public class LikeCommentApiController : ControllerBase
@@ -44,6 +48,19 @@ namespace BoardApi.Controllers
         [HttpPost]
         public async Task<ActionResult<LikeComment>> PostLikeComment(LikeComment likeComment)
         {
+            var existingLikeComment = await _context.LikeComment
+                .Where(l => l.CommentId == likeComment.CommentId)
+                .FirstOrDefaultAsync();
+
+            if (existingLikeComment != null)
+            {
+                return Ok(new SaveLikeCommentResponse
+                {
+                    Code = ResultCode.ExistsAlready,
+                    Message = "이미 존재합니다."
+                });
+            }
+
             var comment = await _context.Comment
                 .Where(c => c.CommentId == likeComment.CommentId)
                 .FirstOrDefaultAsync();

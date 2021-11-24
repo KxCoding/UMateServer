@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using UMateModel.Contexts;
 using UMateModel.Entities.UMateBoard;
 using UMateModel.Models;
@@ -12,6 +15,7 @@ using UMateModel.Models.UMateBoard;
 
 namespace BoardApi.Controllers
 {
+    [Authorize]
     [Route("api/scrapPost")]
     [ApiController]
     public class ScrapPostApiController : ControllerBase
@@ -22,6 +26,7 @@ namespace BoardApi.Controllers
         {
             _context = context;
         }
+
 
         // GET: api/ScrapPostApi
         [HttpGet]

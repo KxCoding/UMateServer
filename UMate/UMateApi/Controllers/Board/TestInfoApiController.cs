@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using UMateModel.Contexts;
 using UMateModel.Entities.UMateBoard;
 using UMateModel.Models;
@@ -12,6 +15,7 @@ using UMateModel.Models.UMateBoard;
 
 namespace BoardApi.Controllers
 {
+    [Authorize]
     [Route("api/testInfo")]
     [ApiController]
     public class TestInfoApiController : ControllerBase
@@ -57,6 +61,7 @@ namespace BoardApi.Controllers
         // POST: api/TestInfoApi
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<TestInfoPostResponse>> PostTestInfo(SaveTestInfoData testInfo)
         {
@@ -79,7 +84,6 @@ namespace BoardApi.Controllers
                     Message = "이미 시험정보를 작성한 강의입니다."
                 });
             }
-
 
             // 사용자가 시험정보를 남기지 않은 강의라면 서버에 저장
             var newTestInfo = new TestInfo

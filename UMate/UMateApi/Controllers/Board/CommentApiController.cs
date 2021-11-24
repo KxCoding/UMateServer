@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using UMateModel.Contexts;
 using UMateModel.Entities.UMateBoard;
 using UMateModel.Models;
@@ -12,6 +15,7 @@ using UMateModel.Models.UMateBoard;
 
 namespace BoardApi.Controllers
 {
+    [Authorize]
     [Route("api/comment")]
     [ApiController]
     public class CommentApiController : ControllerBase
@@ -38,7 +42,7 @@ namespace BoardApi.Controllers
                     .Where(u => u.Id == comment.UserId)
                     .FirstOrDefaultAsync();
 
-                comment.UserName = user.UserName;
+                comment.UserName = user.NickName;
                 comment.ProfileUrl = user.SelectedProfileImage;
             }
 
@@ -108,7 +112,7 @@ namespace BoardApi.Controllers
                 .FirstOrDefaultAsync();
 
             var userComment = new CommentDto(newComment);
-            userComment.UserName = user.UserName;
+            userComment.UserName = user.NickName;
             userComment.ProfileUrl = user.SelectedProfileImage;
 
             return Ok(new CommentPostResponse

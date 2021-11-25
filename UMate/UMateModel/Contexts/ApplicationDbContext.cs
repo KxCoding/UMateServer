@@ -63,5 +63,6 @@ namespace UMateModel.Contexts
         /// Place
         public DbSet<Place> Place { get; set; }
         public DbSet<PlaceBookmark> PlaceBookmark { get; set; }
+        public DbSet<PlaceReview> PlaceReview { get; set; }
     }
 }

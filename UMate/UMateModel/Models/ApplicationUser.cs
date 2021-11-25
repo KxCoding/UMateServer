@@ -16,7 +16,7 @@ namespace UMateModel.Models
         public string YearOfAdmission { get; set; }
 
         /// <summary>
-        /// 대학교 ID
+        /// 대학교 아이디
         /// </summary>
         public int? UniversityId { get; set; }
 

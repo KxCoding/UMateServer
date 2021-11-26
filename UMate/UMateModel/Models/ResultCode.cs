@@ -19,5 +19,6 @@ namespace UMateModel.Models
         // Place
         public static int ExistsAlready = 5000;
         public static int CannotFindData = 6000;
+        public static int ReviewNotExists = 7000;
     }
 }

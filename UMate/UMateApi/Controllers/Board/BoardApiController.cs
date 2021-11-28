@@ -28,7 +28,6 @@ namespace BoardApi.Controllers
         }
 
         // 게시판 목록 화면
-        // GET: api/BoardApi
         [HttpGet]
         public async Task<ActionResult<BoardListResponse<BoardDto>>> GetBoard()
         {
@@ -45,7 +44,7 @@ namespace BoardApi.Controllers
             });
         }
 
-        // GET: api/BoardApi/5
+        // 해당 게시판 정보, 카테고리를 리턴합니다.
         [HttpGet("{id}")]
         public async Task<ActionResult<BoardDto>> GetBoard(int id)
         {

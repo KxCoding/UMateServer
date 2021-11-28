@@ -22,7 +22,6 @@ namespace BoardBulkInsert.Controllers
         {
             _context = context;
         }
-
         
 
         // POST: api/LectureInfoApi

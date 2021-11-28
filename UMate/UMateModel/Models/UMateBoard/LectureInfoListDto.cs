@@ -3,6 +3,9 @@ using UMateModel.Entities.UMateBoard;
 
 namespace UMateModel.Models.UMateBoard
 {
+    /// <summary>
+    /// 강의 목록을 불러올 때 사용합니다.
+    /// </summary>
     public class LectureInfoListDto
     {
         public LectureInfoListDto(LectureInfo lectureInfo)

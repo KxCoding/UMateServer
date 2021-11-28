@@ -21,18 +21,26 @@ namespace BoardApi.Controllers
     public class LikeCommentApiController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public IConfiguration Configuration { get; }
 
-        public LikeCommentApiController(ApplicationDbContext context)
+        public LikeCommentApiController(
+            UserManager<ApplicationUser> userManager,
+            IConfiguration configuration,
+            ApplicationDbContext context)
         {
+            _userManager = userManager;
+            Configuration = configuration;
             _context = context;
         }
 
-        // GET: api/LikeCommentApi
+        // 좋아요한 댓글 목록을 리턴합니다.
         [HttpGet]
-        public async Task<ActionResult<LikeCommentListResponse<LikeComment>>> GetLikeComment(string userId)
+        public async Task<ActionResult<LikeCommentListResponse<LikeComment>>> GetLikeComment()
         {
+            var loginedUser = await _userManager.GetUserAsync(User);
             var list = await _context.LikeComment
-                .Where(l => l.UserId == userId)
+                .Where(l => l.UserId == loginedUser.Id)
                 .ToListAsync();
 
             return Ok(new LikeCommentListResponse
@@ -42,12 +50,13 @@ namespace BoardApi.Controllers
             });
         }
 
-        // POST: api/LikeCommentApi
+        // 댓글 좋아요를 저장합니다.
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<LikeComment>> PostLikeComment(LikeComment likeComment)
         {
+            var loginedUser = await _userManager.GetUserAsync(User);
             var existingLikeComment = await _context.LikeComment
                 .Where(l => l.CommentId == likeComment.CommentId)
                 .FirstOrDefaultAsync();
@@ -67,6 +76,7 @@ namespace BoardApi.Controllers
 
             comment.LikeCnt += 1;
 
+            likeComment.UserId = loginedUser.Id;
             _context.LikeComment.Add(likeComment);
             await _context.SaveChangesAsync();
 
@@ -78,7 +88,7 @@ namespace BoardApi.Controllers
             });
         }
 
-        // DELETE: api/LikeCommentApi/5
+        // 댓글 좋아요를 삭제합니다.
         [HttpDelete("{id}")]
         public async Task<ActionResult<LikeComment>> DeleteLikeComment(int id)
         {

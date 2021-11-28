@@ -3,8 +3,11 @@ using System.Collections.Generic;
 
 namespace UMateModel.Models.UMateBoard
 {
-    // BULK INSERT
-
+    /// <summary>
+    /// BULK INSERT전용 POSTData
+    ///
+    /// 벌크 인서트 할 때 서버에서 받는 데이터
+    /// </summary>
     public class BoardPostData
     {
         public int BoardId { get; set; }
@@ -43,10 +46,34 @@ namespace UMateModel.Models.UMateBoard
         public DateTime CreatedAt { get; set; }
     }
 
+    public class LectureInfoPostData
+    {
+        public int LectureInfoId { get; set; }
+        public string Title { get; set; }
+        public string Professor { get; set; }
+        public string BookName { get; set; }
+        public string BookLink { get; set; }
+        public string Semesters { get; set; }
+    }
+
+    public class TestInfoPostData
+    {
+        public int TestInfoId { get; set; }
+        public string UserId { get; set; }
+        public int LectureInfoId { get; set; }
+        public string Semester { get; set; }
+        public string TestType { get; set; }
+        public string TestStrategy { get; set; }
+        public string QuestionTypes { get; set; }
+    }
 
 
-    // Api Post
-    // 게시글 작성
+    /// <summary>
+    /// Api POST
+    /// 
+    /// 게시글 작성 할 때 서버에서 받는 데이터
+    /// </summary>
+    /// 게시글 저장
     public class SavePostData
     {
         public int PostId { get; set; }
@@ -64,29 +91,12 @@ namespace UMateModel.Models.UMateBoard
         public DateTime CreatedAt { get; set; }
     }
 
-
-
-
-
-    //
-    //
-    // 강의 정보
-
-    public class LectureInfoPostData
-    {
-        public int LectureInfoId { get; set; }
-        public string Title { get; set; }
-        public string Professor { get; set; }
-        public string BookName { get; set; }
-        public string BookLink { get; set; }
-        public string Semesters { get; set; }
-    }
-
+    ///  강의평 저장
     public class LectureReviewPostData
     {
         public int LectureReviewId { get; set; }
 
-        public string UserId { get; set; }// context.User
+        public string UserId { get; set; }
 
         public int LectureInfoId { get; set; }
 
@@ -103,6 +113,7 @@ namespace UMateModel.Models.UMateBoard
         public DateTime CreatedAt { get; set; }
     }
 
+    /// 시험 정보에서 문제 예시 저장
     public class ExamplePostData
     {
         public int ExampleId { get; set; }
@@ -110,21 +121,7 @@ namespace UMateModel.Models.UMateBoard
         public string Content { get; set; }
     }
 
-    //벌크 인서트
-    public class TestInfoPostData
-    {
-        public int TestInfoId { get; set; }
-        public string UserId { get; set; }
-        public int LectureInfoId { get; set; }
-        public string Semester { get; set; }
-        public string TestType { get; set; }
-        public string TestStrategy { get; set; }
-        public string QuestionTypes { get; set; }
-    }
-
-
-
-    // post에 사용
+    // 시험정보 저
     public class SaveTestInfoData
     {
         public int TestInfoId { get; set; }

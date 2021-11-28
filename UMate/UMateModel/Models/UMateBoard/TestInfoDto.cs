@@ -3,7 +3,9 @@ using UMateModel.Entities.UMateBoard;
 
 namespace UMateModel.Models.UMateBoard
 {
-    // 저장 응답 데이터
+    /// <summary>
+    /// 시험 정보 저장 응답 데이터입니다.
+    /// </summary>
     public class TestInfoDto
     {
         public TestInfoDto(TestInfo testInfo)

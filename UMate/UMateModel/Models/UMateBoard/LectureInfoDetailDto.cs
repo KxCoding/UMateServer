@@ -3,6 +3,9 @@ using UMateModel.Entities.UMateBoard;
 
 namespace UMateModel.Models.UMateBoard
 {
+    /// <summary>
+    /// 강의 세부 정보를 불러올 때 사용합니다.
+    /// </summary>
     public class LectureInfoDetailDto
     {
         public LectureInfoDetailDto(LectureInfo lectureInfo)

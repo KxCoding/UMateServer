@@ -21,21 +21,29 @@ namespace BoardApi.Controllers
     public class PostApiController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public IConfiguration Configuration { get; }
 
-        public PostApiController(ApplicationDbContext context)
+        public PostApiController(
+            UserManager<ApplicationUser> userManager,
+            IConfiguration configuration,
+            ApplicationDbContext context)
         {
+            _userManager = userManager;
+            Configuration = configuration;
             _context = context;
         }
 
-        // 게시글 목록
-        // GET: api/PostApi
+        // 게시글 목록을 리턴합니다.
         [HttpGet]
-        public async Task<ActionResult<PostListResponse<PostListDto>>> GetPostList(int boardId, string userId)
+        public async Task<ActionResult<PostListResponse<PostListDto>>> GetPostList(int boardId)
         {
+            var loginedUser = await _userManager.GetUserAsync(User);
+            // '내가 쓴 글' 게시판
             if (boardId == 1)
             {
                 var myPostList = await _context.Post
-                    .Where(p => p.UserId == userId)
+                    .Where(p => p.UserId == loginedUser.Id)
                     .OrderByDescending(p => p.CreatedAt)
                     .Select(p => new PostListDto(p))
                     .ToListAsync();
@@ -58,10 +66,11 @@ namespace BoardApi.Controllers
                 });
             }
 
+            // '댓글 단 글' 게시판
             if (boardId == 2)
             {
                 var myCommentPostList = await _context.Comment
-                              .Where(c => c.UserId == userId)
+                              .Where(c => c.UserId == loginedUser.Id)
                               .OrderByDescending(c => c.CreatedAt)
                               .Include(c => c.Post)
                               .Select(c => new PostListDto(c.Post))
@@ -85,14 +94,14 @@ namespace BoardApi.Controllers
                 });
             }
 
+            // 스크랩 게시판
             if (boardId == 3)
             {
                 var scrapList = await _context.ScrapPost
-                .Where(s => s.UserId == userId)
+                .Where(s => s.UserId == loginedUser.Id)
                 .OrderByDescending(s => s.CreatedAt)
                 .Include(s => s.Post)
                 .Select(s => new PostListDto(s.Post))
-                .Distinct()
                 .ToListAsync();
 
                 foreach (PostListDto post in scrapList)
@@ -112,13 +121,13 @@ namespace BoardApi.Controllers
                 });
             }
 
+            // 인기 게시판
             if (boardId == 4)
             {
                 var popularPostList = await _context.Post
                     .Where(p => p.LikeCnt >= 20 || p.ScrapCnt >= 20)
                     .OrderByDescending(p => p.CreatedAt)
                     .Select(p => new PostListDto(p))
-                    .Distinct()
                     .ToListAsync();
 
                 foreach (PostListDto post in popularPostList)
@@ -162,22 +171,21 @@ namespace BoardApi.Controllers
         }
 
 
-        // GET: api/PostApi/5
+        // 게시글 상세정보를 리턴합니다.
         [HttpGet("{id}")]
-        public async Task<ActionResult<PostDto>> GetPost(int id, string userId)
+        public async Task<ActionResult<PostDetailDto>> GetPost(int id)
         {
+            var loginedUser = await _userManager.GetUserAsync(User);
             var likePost = await _context.LikePost
                 .Where(l => l.PostId == id)
-                .Where(l => l.UserId == userId)
-                .Distinct()
+                .Where(l => l.UserId == loginedUser.Id)
                 .FirstOrDefaultAsync();
 
             var isLiked = likePost != null;
 
             var scrapPost = await _context.ScrapPost
                 .Where(s => s.PostId == id)
-                .Where(s => s.UserId == userId)
-                .Distinct()
+                .Where(s => s.UserId == loginedUser.Id)
                 .FirstOrDefaultAsync();
 
             var isScrapped = scrapPost != null;
@@ -190,7 +198,7 @@ namespace BoardApi.Controllers
             var post = await _context.Post
                 .Where(p => p.PostId == id)
                 .Include(p => p.PostImages)
-                .Select(p => new PostDto(p))
+                .Select(p => new PostDetailDto(p))
                 .FirstOrDefaultAsync();
 
             var user = await _context.Users
@@ -202,13 +210,13 @@ namespace BoardApi.Controllers
 
             if (post == null)
             {
-                return Ok(new PostResponse
+                return Ok(new PostDetailResponse
                 {
                     Code = ResultCode.NotFound
                 });
             }
 
-            return Ok(new PostResponse
+            return Ok(new PostDetailResponse
             {
                 Code = ResultCode.Ok,
                 Post = post,
@@ -219,22 +227,22 @@ namespace BoardApi.Controllers
         }
 
 
-        // POST: api/PostApi
+        // 게시글을 저장합니다.
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<SavePostResponse>> PostPost(SavePostData post)
         {
+            var loginedUser = await _userManager.GetUserAsync(User);
             var existingBoard = await _context.Board
                 .Where(b => b.BoardId == post.BoardId)
                 .FirstOrDefaultAsync();
-
 
             if (existingBoard != null)
             {
                 var newPost = new Post
                 {
-                    UserId = post.UserId,
+                    UserId = loginedUser.Id,
                     BoardId = existingBoard.BoardId,
                     Title = post.Title,
                     Content = post.Content,
@@ -266,7 +274,7 @@ namespace BoardApi.Controllers
                 return Ok(new SavePostResponse
                 {
                     Code = ResultCode.Ok,
-                    Post = new PostDto(newPost)
+                    Post = new PostDetailDto(newPost)
                 });
             }
 
@@ -278,7 +286,7 @@ namespace BoardApi.Controllers
 
         }
 
-        // DELETE: api/PostApi/5
+        // 게시글을 삭제합니다.
         [HttpDelete("{id}")]
         public async Task<ActionResult<CommonResponse>> DeletePost(int id)
         {

@@ -21,13 +21,20 @@ namespace BoardApi.Controllers
     public class LectureReviewApiController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public IConfiguration Configuration { get; }
 
-        public LectureReviewApiController(ApplicationDbContext context)
+        public LectureReviewApiController(
+            UserManager<ApplicationUser> userManager,
+            IConfiguration configuration,
+            ApplicationDbContext context)
         {
+            _userManager = userManager;
+            Configuration = configuration;
             _context = context;
         }
 
-        // GET: api/LectureReviewApi
+        // 강의평을 리턴합니다.
         [HttpGet]
         public async Task<ActionResult<LectureReviewListResponse<LectureReview>>> GetLectureReview(int lectureInfoId)
         {
@@ -57,18 +64,16 @@ namespace BoardApi.Controllers
         }
 
 
-
-
-
-        // POST: api/LectureReviewApi
+        // 강의평을 저장합니다.
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<LectureReviewPostResponse>> PostLectureReview(LectureReviewPostData lectureReview)
         {
+            var loginedUser = await _userManager.GetUserAsync(User);
             // 이미 강의평을 등록한 강의인지 확인
             var existingReview = await _context.LectureReview
-                .Where(l => l.UserId == lectureReview.UserId)// 강의평 중에 같은 사용자가 남긴 강의평 확인
+                .Where(l => l.UserId == loginedUser.Id)// 강의평 중에 같은 사용자가 남긴 강의평 확인
                 .Where(l => l.LectureInfoId == lectureReview.LectureInfoId)// 사용자가 남긴 강의평중에 같은 강의정보가 있는지 확인
                 .FirstOrDefaultAsync();
 
@@ -87,7 +92,7 @@ namespace BoardApi.Controllers
             // 사용자가 강의평을 남기지 않은 강의라면 서버에 저장
             var newLectureReview = new LectureReview
             {
-                UserId = lectureReview.UserId,
+                UserId = loginedUser.Id,
                 LectureInfoId = lectureReview.LectureInfoId,
                 Assignment = lectureReview.Assignment,
                 GroupMeeting = lectureReview.GroupMeeting,
@@ -113,9 +118,7 @@ namespace BoardApi.Controllers
         }
 
 
-
-
-        // DELETE: api/LectureReviewApi/5
+        // 강의평을 삭제합니다.
         [HttpDelete("{id}")]
         public async Task<ActionResult<LectureReview>> DeleteLectureReview(int id)
         {

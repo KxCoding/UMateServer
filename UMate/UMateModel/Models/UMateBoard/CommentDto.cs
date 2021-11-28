@@ -5,6 +5,9 @@ using UMateModel.Entities.UMateBoard;
 
 namespace UMateModel.Models.UMateBoard
 {
+    /// <summary>
+    /// 댓글 목록을 불러올 때 사용합니다.
+    /// </summary>
     public class CommentDto
     {
         public CommentDto(Comment comment)

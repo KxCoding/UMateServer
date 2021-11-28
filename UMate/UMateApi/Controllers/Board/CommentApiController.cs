@@ -21,13 +21,20 @@ namespace BoardApi.Controllers
     public class CommentApiController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public IConfiguration Configuration { get; }
 
-        public CommentApiController(ApplicationDbContext context)
+        public CommentApiController(
+            UserManager<ApplicationUser> userManager,
+            IConfiguration configuration,
+            ApplicationDbContext context)
         {
+            _userManager = userManager;
+            Configuration = configuration;
             _context = context;
         }
 
-        // GET: api/CommentApi
+        // 댓글 목록을 불러옵니다.
         [HttpGet]
         public async Task<ActionResult<CommentListResponse<CommentDto>>> GetCommentList(int postId)
         {
@@ -59,30 +66,16 @@ namespace BoardApi.Controllers
         }
 
 
-        // GET: api/CommentApi/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Comment>> GetComment(int id)
-        {
-            var comment = await _context.Comment.FindAsync(id);
-
-            if (comment == null)
-            {
-                return NotFound();
-            }
-
-            return comment;
-        }
-
-
-        // POST: api/CommentApi
+        // 댓글을 저장합니다.
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<CommentPostResponse>> PostComment(CommentPostData comment)
         {
+            var loginedUser = await _userManager.GetUserAsync(User);
             var newComment = new Comment
             {
-                UserId = comment.UserId,
+                UserId = loginedUser.Id,
                 PostId = comment.PostId,
                 Content = comment.Content,
                 OriginalCommentId = comment.OriginalCommentId,
@@ -107,13 +100,9 @@ namespace BoardApi.Controllers
             
             await _context.SaveChangesAsync();
 
-            var user = await _context.Users
-                .Where(u => u.Id == comment.UserId)
-                .FirstOrDefaultAsync();
-
             var userComment = new CommentDto(newComment);
-            userComment.UserName = user.NickName;
-            userComment.ProfileUrl = user.SelectedProfileImage;
+            userComment.UserName = loginedUser.NickName;
+            userComment.ProfileUrl = loginedUser.SelectedProfileImage;
 
             return Ok(new CommentPostResponse
             {
@@ -123,8 +112,7 @@ namespace BoardApi.Controllers
         }
 
 
-
-        // DELETE: api/CommentApi/5
+        // 댓글을 삭제합니다.
         [HttpDelete("{id}")]
         public async Task<ActionResult<CommonResponse>> DeleteComment(int id)
         {

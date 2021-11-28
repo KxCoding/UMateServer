@@ -3,10 +3,12 @@ using UMateModel.Entities.UMateBoard;
 
 namespace UMateModel.Models.UMateBoard
 {
-    // 게시글 상세화면 get에서 사용
-    public class PostDto
+    /// <summary>
+    /// 게시글 상세화면 정보를 불러올 때 사용합니다.
+    /// </summary>
+    public class PostDetailDto
     {
-        public PostDto(Post post)
+        public PostDetailDto(Post post)
         {
             PostId = post.PostId;
             UserId = post.UserId;

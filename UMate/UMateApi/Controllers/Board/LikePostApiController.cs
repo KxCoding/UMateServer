@@ -21,18 +21,26 @@ namespace BoardServer.Controllers
     public class LikePostApiController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public IConfiguration Configuration { get; }
 
-        public LikePostApiController(ApplicationDbContext context)
+        public LikePostApiController(
+            UserManager<ApplicationUser> userManager,
+            IConfiguration configuration,
+            ApplicationDbContext context)
         {
+            _userManager = userManager;
+            Configuration = configuration;
             _context = context;
         }
 
-        // GET: api/LikePostApi
+        // 좋아요한 게시글 목록을 불러옵니다.
         [HttpGet]
-        public async Task<ActionResult<LikePostListResponse<LikePost>>> GetLikePost(string userId)
+        public async Task<ActionResult<LikePostListResponse<LikePost>>> GetLikePost()
         {
+            var loginedUser = await _userManager.GetUserAsync(User);
             var list = await _context.LikePost
-                .Where(l => l.UserId == userId)
+                .Where(l => l.UserId == loginedUser.Id)
                 .ToListAsync();
 
             return Ok(new LikePostListResponse
@@ -43,14 +51,15 @@ namespace BoardServer.Controllers
         }
 
 
-        // POST: api/LikePostApi
+        // 게시글 좋아요를 저장합니다.
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<LikePost>> PostLikePost(LikePost likePost)
         {
+            var loginedUser = await _userManager.GetUserAsync(User);
             var existingLikePost = await _context.LikePost
-                .Where(l => l.UserId == likePost.UserId)
+                .Where(l => l.UserId == loginedUser.Id)
                 .Where(l => l.PostId == likePost.PostId)
                 .FirstOrDefaultAsync();
 
@@ -59,7 +68,7 @@ namespace BoardServer.Controllers
                 return Ok(new CommonResponse
                 {
                     Code = ResultCode.Fail,
-                    Message = "이미 좋아요를 누른 게p글입니다."
+                    Message = "이미 좋아요를 누른 게시글입니다."
                 });
             }
 
@@ -69,6 +78,7 @@ namespace BoardServer.Controllers
 
             post.LikeCnt += 1;
 
+            likePost.UserId = loginedUser.Id;
             _context.LikePost.Add(likePost);
             await _context.SaveChangesAsync();
 
@@ -79,7 +89,7 @@ namespace BoardServer.Controllers
             });
         }
 
-        // DELETE: api/LikePostApi/5
+        // 게시글 좋아요를 삭제합니다.
         [HttpDelete("{id}")]
         public async Task<ActionResult<LikePost>> DeleteLikePost(int id)
         {

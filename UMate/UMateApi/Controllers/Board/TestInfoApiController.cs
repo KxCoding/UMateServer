@@ -21,13 +21,20 @@ namespace BoardApi.Controllers
     public class TestInfoApiController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public IConfiguration Configuration { get; }
 
-        public TestInfoApiController(ApplicationDbContext context)
+        public TestInfoApiController(
+            UserManager<ApplicationUser> userManager,
+            IConfiguration configuration,
+            ApplicationDbContext context)
         {
+            _userManager = userManager;
+            Configuration = configuration;
             _context = context;
         }
 
-        // GET: api/TestInfoApi
+        // 강의에 해당하는 시험 정보 목록을 리턴합니다.
         [HttpGet]
         public async Task<ActionResult<TestInfoListResponse<TestInfo>>> GetTestInfo(int lectureInfoId)
         {
@@ -58,17 +65,18 @@ namespace BoardApi.Controllers
         }
 
 
-        // POST: api/TestInfoApi
+        // 시험 정보를 저장합니다.
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [Authorize]
         [HttpPost]
         public async Task<ActionResult<TestInfoPostResponse>> PostTestInfo(SaveTestInfoData testInfo)
         {
+            var loginedUser = await _userManager.GetUserAsync(User);
             // 이미 시험정보를 등록한 강의인지 확인
             var existingTestInfo = await _context.TestInfo
                 .Include(l => l.Examples)
-                .Where(l => l.UserId == testInfo.UserId)// 강의평 중에 같은 사용자가 남긴 강의평 확인
+                .Where(l => l.UserId == loginedUser.Id)// 강의평 중에 같은 사용자가 남긴 강의평 확인
                 .Where(l => l.LectureInfoId == testInfo.LectureInfoId)// 사용자가 남긴 강의평중에 같은 강의정보가 있는지 확인
                 .FirstOrDefaultAsync();
 
@@ -88,7 +96,7 @@ namespace BoardApi.Controllers
             // 사용자가 시험정보를 남기지 않은 강의라면 서버에 저장
             var newTestInfo = new TestInfo
             {
-                UserId = testInfo.UserId,
+                UserId = loginedUser.Id,
                 LectureInfoId = testInfo.LectureInfoId,
 
                 Semester = testInfo.Semester,
@@ -125,7 +133,7 @@ namespace BoardApi.Controllers
             });
         }
 
-        // DELETE: api/TestInfoApi/5
+        // 시험 정보를 삭제합니다.
         [HttpDelete("{id}")]
         public async Task<ActionResult<CommonResponse>> DeleteTestInfo(int id)
         {

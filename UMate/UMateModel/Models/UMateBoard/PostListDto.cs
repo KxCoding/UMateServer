@@ -3,9 +3,11 @@ using UMateModel.Entities.UMateBoard;
 
 namespace UMateModel.Models.UMateBoard
 {
+    /// <summary>
+    /// 게시글 목록을 불러올 때 사용합니다.
+    /// </summary>
     public class PostListDto
     {
-        // 게시글 목록 get list에 사용
         public PostListDto(Post post)
         {
             PostId = post.PostId;

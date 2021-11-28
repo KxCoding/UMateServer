@@ -21,13 +21,20 @@ namespace BoardApi.Controllers
     public class PostImageApiController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public IConfiguration Configuration { get; }
 
-        public PostImageApiController(ApplicationDbContext context)
+        public PostImageApiController(
+            UserManager<ApplicationUser> userManager,
+            IConfiguration configuration,
+            ApplicationDbContext context)
         {
+            _userManager = userManager;
+            Configuration = configuration;
             _context = context;
         }
 
-        // GET: api/PostImageApi
+        // 게시글에 포함된 이미지 목록을 리턴합니다.
         [HttpGet]
         public async Task<ActionResult<ImageListResponse<PostImage>>> GetPostImages (int postId)
         {
@@ -42,57 +49,8 @@ namespace BoardApi.Controllers
             });
         }
 
-        // GET: api/PostImageApi/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<PostImage>> GetPostImage(int id)
-        {
-            var postImage = await _context.PostImage.FindAsync(id);
 
-            if (postImage == null)
-            {
-                return NotFound();
-            }
-
-            return postImage;
-        }
-
-        // PUT: api/PostImageApi/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPostImage(int id, PostImage postImage)
-        {
-            if (id != postImage.PostImageId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(postImage).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PostImageExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-
-
-
-
-        // POST: api/PostImageApi
+        // 게시글의 이미지를 저장합니다.
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
@@ -123,10 +81,7 @@ namespace BoardApi.Controllers
         }
 
 
-
-
-
-        // DELETE: api/PostImageApi/5
+        // 게시글 이미지를 삭제합니다.
         [HttpDelete("{id}")]
         public async Task<ActionResult<CommonResponse>> DeletePostImage(int id)
         {

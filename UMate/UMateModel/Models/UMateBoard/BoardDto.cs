@@ -4,6 +4,9 @@ using UMateModel.Entities.UMateBoard;
 
 namespace UMateModel.Models.UMateBoard
 {
+    /// <summary>
+    /// 게시판 목록을 불러올 때 사용합니다.
+    /// </summary>
     public class BoardDto
     {
         public BoardDto(Board board)

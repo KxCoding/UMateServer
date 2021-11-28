@@ -57,8 +57,10 @@ namespace BoardApi.Controllers
         public async Task<ActionResult<LikeComment>> PostLikeComment(LikeComment likeComment)
         {
             var loginedUser = await _userManager.GetUserAsync(User);
+
             var existingLikeComment = await _context.LikeComment
                 .Where(l => l.CommentId == likeComment.CommentId)
+                .Where(l => l.UserId == loginedUser.Id)
                 .FirstOrDefaultAsync();
 
             if (existingLikeComment != null)

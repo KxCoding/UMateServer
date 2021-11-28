@@ -6,6 +6,11 @@ namespace UMateModel.Models
     public class ApplicationUser: IdentityUser
     {
         /// <summary>
+        /// 유저 이름
+        /// </summary>
+        public string RealName { get; set; }
+
+        /// <summary>
         /// 닉네임
         /// </summary>
         public string NickName { get; set; }

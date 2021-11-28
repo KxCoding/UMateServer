@@ -82,7 +82,7 @@ namespace UMateApi.Controllers
                             UserId = user.Id,
                             Email = user.Email,
                             Token = token,
-                            UserName = user.UserName,
+                            RealName = user.RealName,
                             NickName = user.NickName,
                             YearOfAdmission = user.YearOfAdmission
                         });

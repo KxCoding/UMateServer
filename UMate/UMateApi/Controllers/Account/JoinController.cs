@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using UMateModel.Contexts;
 using UMateModel.Models;
 
 namespace UMateApi.Controllers
@@ -18,6 +20,7 @@ namespace UMateApi.Controllers
     [ApiController]
     public class JoinController : ControllerBase
     {
+        private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         public IConfiguration Configuration { get; }
@@ -25,11 +28,13 @@ namespace UMateApi.Controllers
         public JoinController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             Configuration = configuration;
+            _context = context;
         }
 
         private string GetApiToken(ApplicationUser user)
@@ -50,7 +55,7 @@ namespace UMateApi.Controllers
                     Configuration["JwtIssuer"],
                     Configuration["JwtAudience"],
                     claims,
-                    expires: DateTime.UtcNow.AddDays(7),
+                    expires: DateTime.UtcNow.AddYears(1),
                     signingCredentials: creds
                     );
 
@@ -69,13 +74,27 @@ namespace UMateApi.Controllers
             {
                 UserName = data.Email,
                 Email = data.Email,
+                RealName = data.RealName,
                 NickName = data.NickName,
+                UniversityId = data.UniversityId,
                 YearOfAdmission = data.YearOfAdmission,
                 EmailConfirmed = true,
                 UpdateDate = DateTime.UtcNow
             };
 
             var result = await _userManager.CreateAsync(user, data.Password);
+
+            var targetUniversity = await _context.University
+                .Where(u => u.UniversityId == data.UniversityId)
+                .FirstOrDefaultAsync();
+            if (targetUniversity == null)
+            {
+                return Ok(new CommonResponse
+                {
+                    Code = ResultCode.Fail,
+                    Message = "일치하는 대학교 정보를 찾을 수 없습니다."
+                });
+            }
 
             if (result.Succeeded)
             {
@@ -85,8 +104,9 @@ namespace UMateApi.Controllers
                     UserId = user.Id,
                     Email = user.Email,
                     Token = GetApiToken(user),
-                    UserName = data.UserName,
+                    RealName = data.RealName,
                     NickName = data.NickName,
+                    UniversityName = targetUniversity.Name,
                     YearOfAdmission = data.YearOfAdmission
                 });
             }

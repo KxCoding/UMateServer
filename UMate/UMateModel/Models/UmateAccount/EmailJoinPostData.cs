@@ -9,12 +9,17 @@ namespace UMateModel.Models
         /// <summary>
         /// 사용자 이름
         /// </summary>
-        public string UserName { get; set; }
+        public string RealName { get; set; }
 
         /// <summary>
         /// 닉네임
         /// </summary>
         public string NickName { get; set; }
+
+        /// <summary>
+        /// 대학교 아이디
+        /// </summary>
+        public int UniversityId { get; set; }
 
         /// <summary>
         /// 입학 연도

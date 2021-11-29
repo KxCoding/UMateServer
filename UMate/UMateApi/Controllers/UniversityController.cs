@@ -15,7 +15,6 @@ using UMateModel.Models.UMateUniversity;
 
 namespace UMateApi.Controllers
 {
-    [Authorize]
     [Route("api/university")]
     [ApiController]
     public class UniversityController : ControllerBase
@@ -26,7 +25,6 @@ namespace UMateApi.Controllers
         {
             _context = context;
         }
-
 
         // GET: University
         // 전체 대학교 리스트 리턴
@@ -50,6 +48,7 @@ namespace UMateApi.Controllers
 
         // GET: University/5
         // 전달된 대학 id와 일치하는 대학 정보 리턴
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<UniversityResponse>> GetUniversity(int id)
         {

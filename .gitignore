@@ -387,3 +387,9 @@ FodyWeavers.xsd
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+UMate/UMateApi/appsettings.json
+
+UMate/UMateAdmin/appsettings.json
+
+UMate/UMateBulkInsert/appsettings.json

@@ -24,7 +24,7 @@ namespace BoardBulkInsert.Controllers
         }
 
 
-        // POST: api/BoardApi
+        // 게시판 벌크 인서트
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
@@ -35,12 +35,15 @@ namespace BoardBulkInsert.Controllers
                 .Where(b => b.Name == board.Name)
                 .FirstOrDefaultAsync();
 
+            // 게시판이 이미 존재한다면
             if (existingBoard != null)
             {
+                // 게시판에 해당하는 카테고리를 저장
                 var categories = await _context.Category
                     .Where(b => b.BoardId == board.BoardId)
                     .ToListAsync();
 
+                // 게시판에 해당하는 게시물을 저장
                 var posts = await _context.Post
                     .Where(p => p.BoardId == board.BoardId)
                     .ToListAsync();
@@ -57,6 +60,7 @@ namespace BoardBulkInsert.Controllers
                 });
             }
 
+            // 존재하지 않는 게시판이라면 새로 추가
             var newBoard = new Board
             {
                 Section = board.Section,

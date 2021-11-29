@@ -24,16 +24,18 @@ namespace BoardBulkInsert.Controllers
         }
 
        
-        // POST: api/CategoryApi
+        // 게시판 카테고리 벌크 인서트
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<CategoryPostResponse>> PostCategory(CategoryPostData category)
         {
+            // 카테고리가 존재하는지 확인
             var existingCategory = await _context.Category
                 .Where(c => c.Name == category.Name)
                 .FirstOrDefaultAsync();
 
+            // 카테고리가 이미 존재한다면
             if (existingCategory != null)
             {
                 return Ok(new CategoryPostResponse
@@ -43,6 +45,7 @@ namespace BoardBulkInsert.Controllers
                 });
             }
 
+            // 없다면 새로운 카테고리 정보 저장
             var newCategory = new Category
             {
                 BoardId = category.BoardId,

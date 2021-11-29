@@ -23,17 +23,18 @@ namespace BoardBulkInsert.Controllers
             _context = context;
         }
 
-        // POST: api/PostImageApi
+        // 게시물 이미지 벌크 인서트
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<ImagePostResponse>> PostPostImage(PostImage postImage)
         {
+            // 이미지가 포함된 게시물이 실제로 존재하는지 확인
             var existingPost = await _context.Post
                 .Where(p => p.PostId == postImage.PostId)
                 .FirstOrDefaultAsync();
 
-
+            // 존재하지 않는다면 저장하지 않는다.
             if (existingPost == null)
             {
                 return Ok(new ImagePostResponse
@@ -44,6 +45,7 @@ namespace BoardBulkInsert.Controllers
             }
 
 
+            // 존재한다면 저장
             _context.PostImage.Add(postImage);
             await _context.SaveChangesAsync();
 

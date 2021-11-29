@@ -24,7 +24,7 @@ namespace BoardBulkInsert.Controllers
         }
 
 
-        // POST: api/LectureReviewApi
+        // 강의평 벌크 인서트
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
@@ -37,7 +37,7 @@ namespace BoardBulkInsert.Controllers
                 .FirstOrDefaultAsync();
 
 
-            // 같은 userId를 가진 강의평이 이미 존재한다면 저장 안 되도록
+            // 같은 userId를 가진 강의평이 이미 존재한다면 저장 안 되도록 합니다.
             if (existingReview != null)
             {
                 return Ok(new LectureReviewPostResponse
@@ -62,7 +62,7 @@ namespace BoardBulkInsert.Controllers
                 Semester = lectureReview.Semester,
                 Content = lectureReview.Content,
 
-                CreatedAt = DateTime.UtcNow// 그냥 Now는 컴퓨터 위치시간으로 저장됨. 출력할 때는 .utf8??로 스트링??
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.LectureReview.Add(newLectureReview);

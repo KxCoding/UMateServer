@@ -24,7 +24,7 @@ namespace BoardBulkInsert.Controllers
         }
 
 
-        // POST: api/TestInfoApi
+        // 시험정보 벌크 인서트 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]

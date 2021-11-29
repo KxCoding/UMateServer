@@ -23,16 +23,18 @@ namespace BoardBulkInsert.Controllers
             _context = context;
         }
 
-        // POST: api/ProfessorApi
+        // 교수명 벌크 인서트
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<Professor>> PostProfessor(Professor professor)
         {
+            // 이미 존재하는 교수명이 있는지 확인한다.
             var existingProfessor = await _context.Professor
                 .Where(p => p.Name == professor.Name)
                 .FirstOrDefaultAsync();
 
+            // 이미 존재한다면 저장하지 않는다.
             if (existingProfessor != null)
             {
                 return Ok(new CommonResponse
@@ -41,6 +43,7 @@ namespace BoardBulkInsert.Controllers
                 });
             }
 
+            // 존재하지 않는다면 저장한다.
             _context.Professor.Add(professor);
             await _context.SaveChangesAsync();
 

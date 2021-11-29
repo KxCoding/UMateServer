@@ -24,13 +24,14 @@ namespace BoardBulkInsert.Controllers
         }
 
 
-        // POST: api/PostApi
+        // 게시물 벌크 인서트
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<PostPostResponse>> PostPost(PostPostData post)
         {
-            //Post는 중복을 제한하지 말아야한다. 사용자가 작성하는 건 다 올라가야 하므로
+            // Post는 중복을 제한하지 말아야한다. 사용자가 작성하는 건 다 올라가야 하므로
+            // 존재 유무를 확인하지 않고 모두 서버에 저장
             var newPost = new Post
             {
                 UserId = post.UserId,

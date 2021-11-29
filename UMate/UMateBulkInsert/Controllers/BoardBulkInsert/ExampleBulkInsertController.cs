@@ -24,18 +24,21 @@ namespace BoardBulkInsert.Controllers
         }
 
 
-        // POST: api/ExampleApi
+        // 강의정보에서 > 시험 정보에서 > 문제 예시 벌크 인서트
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<ExamplePostResponse>> PostExample(ExamplePostData example)
         {
+            // 시험 정보가 존재하는지 확인
             var existingTestInfo = await _context.TestInfo
                 .Where(t => t.TestInfoId == example.TestInfoId)
                 .FirstOrDefaultAsync();
 
+            // 존재하는 시험정보가 없다면
             if (existingTestInfo == null)
             {
+                // 문제 예시를 저장할 수 없다.
                 return Ok(new ExamplePostResponse
                 {
                     Code = ResultCode.Fail,
@@ -43,6 +46,7 @@ namespace BoardBulkInsert.Controllers
                 });
             }
 
+            // 문제 예시와 관련된 시험 정보가 존재한다면 저장
             var newExample = new Example
             {
                 TestInfoId = example.TestInfoId,

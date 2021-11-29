@@ -24,39 +24,40 @@ namespace BoardBulkInsert.Controllers
         }
         
 
-        // POST: api/LectureInfoApi
+        // 강의 정보 벌크 인서트
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<LectureInfoPostResponse>> PostLectureInfo(LectureInfoPostData lectureInfo)
         {
             // 메모리에 같은 교수명이 존재하는지 확인
+            // ProfessorBulkInsertController가 있지만 다시 확인하는 작업입니다.
             var existingProfessor = await _context.Professor
                 .Where(p => p.Name == lectureInfo.Professor)
                 .FirstOrDefaultAsync();
 
-            // 존재하지 않는다면
+            // 교수명이 존재하지 않는다면
             if (existingProfessor == null)
             {
+                // 강의 정보에 해당하는 교수명을 새로 서버에 저장
                 existingProfessor = new Professor
                 {
                     Name = lectureInfo.Professor
                 };
 
-                // 서버에 새로운 교수명 저장
                 _context.Professor.Add(existingProfessor);
                 await _context.SaveChangesAsync();
             }
 
-            // 메모리에 같은 강의정보가 존재하는지 확인
+            // 같은 강의정보가 존재하는지 확인
             var existingLectureInfo = await _context.LectureInfo
                 .Where(l => l.Title == lectureInfo.Title)
                 .FirstOrDefaultAsync();
 
-            // 강의 정보가 존재한다면 이미 저장되있다면
+            // 강의 정보가 이미 저장되있다면
             if (existingLectureInfo != null)
             {
-                // 강의 정보에 교수Id 저장해주기
+                // 강의 정보와 교수명을 저장해서 연결해 줍니다.
                 existingLectureInfo.ProfessorId = existingProfessor.ProfessorId;
                 await _context.SaveChangesAsync();
 

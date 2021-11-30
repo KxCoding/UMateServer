@@ -48,7 +48,6 @@ namespace UMateApi.Controllers
 
         // GET: University/5
         // 전달된 대학 id와 일치하는 대학 정보 리턴
-        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<UniversityResponse>> GetUniversity(int id)
         {
@@ -75,6 +74,32 @@ namespace UMateApi.Controllers
             });
         }
 
-       
+
+        [HttpGet("{name}")]
+        public async Task<ActionResult<UniversityResponse>> GetUniversity(string name)
+        {
+            var university = await _context.University
+                .Where(u => u.Name == name)
+                .FirstOrDefaultAsync();
+
+            if (university == null)
+            {
+                return Ok(new CommonResponse
+                {
+                    Code = ResultCode.Fail,
+                    Message = "can't find university"
+                });
+            }
+
+            var data = new UniversityDto(university);
+
+            return Ok(new UniversityResponse
+            {
+                Code = ResultCode.Ok,
+                University = data
+            });
+        }
+
+
     }
 }

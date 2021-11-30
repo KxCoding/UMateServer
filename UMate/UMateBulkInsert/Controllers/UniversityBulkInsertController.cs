@@ -12,7 +12,7 @@ using UMateModel.Models.UMateUniversity;
 
 namespace UMateBulkInsert.Controllers
 {
-    [Route("bi/place/univ")]
+    [Route("bi/univ")]
     [ApiController]
     public class UniversityBulkInsertController : ControllerBase
     {

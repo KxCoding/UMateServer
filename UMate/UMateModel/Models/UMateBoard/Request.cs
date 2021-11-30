@@ -33,6 +33,7 @@ namespace UMateModel.Models.UMateBoard
         public int CommentCnt { get; set; }
         public int ScrapCnt { get; set; }
         public int CategoryNumber { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 
 

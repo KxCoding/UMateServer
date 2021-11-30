@@ -54,7 +54,7 @@ namespace BoardApi.Controllers
                         .Where(u => u.Id == post.UserId)
                         .FirstOrDefaultAsync();
 
-                    post.UserName = user.NickName;
+                    post.UserName = user.UserName;
                 }
 
 
@@ -83,7 +83,7 @@ namespace BoardApi.Controllers
                         .Where(u => u.Id == post.UserId)
                         .FirstOrDefaultAsync();
 
-                    post.UserName = user.NickName;
+                    post.UserName = user.UserName;
                 }
 
                 return Ok(new MyCommentListResponse
@@ -110,7 +110,7 @@ namespace BoardApi.Controllers
                         .Where(u => u.Id == post.UserId)
                         .FirstOrDefaultAsync();
 
-                    post.UserName = user.NickName;
+                    post.UserName = user.UserName;
                 }
 
                 return Ok(new ScrapPostListResponse
@@ -136,7 +136,7 @@ namespace BoardApi.Controllers
                         .Where(u => u.Id == post.UserId)
                         .FirstOrDefaultAsync();
 
-                    post.UserName = user.NickName;
+                    post.UserName = user.UserName;
                 }
 
                 return Ok(new ScrapPostListResponse
@@ -159,7 +159,7 @@ namespace BoardApi.Controllers
                     .Where(u => u.Id == post.UserId)
                     .FirstOrDefaultAsync();
 
-                post.UserName = user.NickName;
+                post.UserName = user.UserName;
             }
 
             return Ok(new PostListResponse
@@ -205,7 +205,7 @@ namespace BoardApi.Controllers
                 .Where(u => u.Id == post.UserId)
                 .FirstOrDefaultAsync();
 
-            post.UserName = user.NickName;
+            post.UserName = user.UserName;
             post.ProfileUrl = user.SelectedProfileImage;
 
             if (post == null)

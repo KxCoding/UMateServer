@@ -49,7 +49,7 @@ namespace BoardApi.Controllers
                     .Where(u => u.Id == comment.UserId)
                     .FirstOrDefaultAsync();
 
-                comment.UserName = user.NickName;
+                comment.UserName = user.UserName;
                 comment.ProfileUrl = user.SelectedProfileImage;
             }
 
@@ -101,7 +101,7 @@ namespace BoardApi.Controllers
             await _context.SaveChangesAsync();
 
             var userComment = new CommentDto(newComment);
-            userComment.UserName = loginedUser.NickName;
+            userComment.UserName = loginedUser.UserName;
             userComment.ProfileUrl = loginedUser.SelectedProfileImage;
 
             return Ok(new CommentPostResponse

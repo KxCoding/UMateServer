@@ -43,7 +43,7 @@ namespace BoardBulkInsert.Controllers
                 ScrapCnt = post.ScrapCnt,
                 CategoryNumber = post.CategoryNumber,
 
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = post.CreatedAt
             };
 
             _context.Post.Add(newPost);

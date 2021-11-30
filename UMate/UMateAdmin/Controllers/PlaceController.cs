@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
+using Microsoft.WindowsAzure.Storage.Blob;
 using UMateAdmin;
 using UMateAdmin.Service;
 using UMateModel.Contexts;
@@ -28,7 +29,9 @@ namespace UMateAdmin.Controllers
             _context = context;
         }
 
-        private StorageManager StorageManager = new StorageManager("placetemp1113", "6cdDKMVhcLA9BQAuAoypRGZ37yNanBsoxC12UOAZ9B1nrn4nCT9LhUckuSYcO9I4yLB3tjH/5BVHm6yVrTHjLQ==", "placeimages");
+        private StorageManager StorageManager = StorageManager.Shared;
+
+        private CloudBlobContainer PlaceContainer = StorageManager.GetContainer("place");
 
         // GET: Place
         public async Task<IActionResult> Index(int? page)
@@ -82,7 +85,7 @@ namespace UMateAdmin.Controllers
                 if (place.ThumbnailFile != null)
                 {
                     // 업로드된 파일이 있다면 url을 생성하고 이를 place 인스턴스에 저장합니다.
-                    var url = await StorageManager.UploadFile(place.ThumbnailFile);
+                    var url = await StorageManager.UploadFile(PlaceContainer, place.ThumbnailFile);
 
                     if (url != null)
                     {
@@ -103,7 +106,7 @@ namespace UMateAdmin.Controllers
                 if (place.PlaceImageFile0 != null)
                 {
                     // 업로드된 파일이 있다면 url을 생성하고 이를 place 인스턴스에 저장합니다.
-                    var url = await StorageManager.UploadFile(place.PlaceImageFile0);
+                    var url = await StorageManager.UploadFile(PlaceContainer, place.PlaceImageFile0);
 
                     if (url != null)
                     {
@@ -123,7 +126,7 @@ namespace UMateAdmin.Controllers
                 if (place.PlaceImageFile1 != null)
                 {
                     // 업로드된 파일이 있다면 url을 생성하고 이를 place 인스턴스에 저장합니다.
-                    var url = await StorageManager.UploadFile(place.PlaceImageFile1);
+                    var url = await StorageManager.UploadFile(PlaceContainer, place.PlaceImageFile1);
 
                     if (url != null)
                     {
@@ -143,7 +146,7 @@ namespace UMateAdmin.Controllers
                 if (place.PlaceImageFile2 != null)
                 {
                     // 업로드된 파일이 있다면 url을 생성하고 이를 place 인스턴스에 저장합니다.
-                    var url = await StorageManager.UploadFile(place.PlaceImageFile2);
+                    var url = await StorageManager.UploadFile(PlaceContainer, place.PlaceImageFile2);
 
                     if (url != null)
                     {
@@ -163,7 +166,7 @@ namespace UMateAdmin.Controllers
                 if (place.PlaceImageFile3 != null)
                 {
                     // 업로드된 파일이 있다면 url을 생성하고 이를 place 인스턴스에 저장합니다.
-                    var url = await StorageManager.UploadFile(place.PlaceImageFile3);
+                    var url = await StorageManager.UploadFile(PlaceContainer, place.PlaceImageFile3);
 
                     if (url != null)
                     {
@@ -183,7 +186,7 @@ namespace UMateAdmin.Controllers
                 if (place.PlaceImageFile4 != null)
                 {
                     // 업로드된 파일이 있다면 url을 생성하고 이를 place 인스턴스에 저장합니다.
-                    var url = await StorageManager.UploadFile(place.PlaceImageFile4);
+                    var url = await StorageManager.UploadFile(PlaceContainer, place.PlaceImageFile4);
 
                     if (url != null)
                     {
@@ -203,7 +206,7 @@ namespace UMateAdmin.Controllers
                 if (place.PlaceImageFile5 != null)
                 {
                     // 업로드된 파일이 있다면 url을 생성하고 이를 place 인스턴스에 저장합니다.
-                    var url = await StorageManager.UploadFile(place.PlaceImageFile5);
+                    var url = await StorageManager.UploadFile(PlaceContainer, place.PlaceImageFile5);
 
                     if (url != null)
                     {
@@ -266,10 +269,10 @@ namespace UMateAdmin.Controllers
                     if (place.ThumbnailImageUrl != null)
                     {
                         // 이미 저장된 파일이 있고, 새로 업로드된 파일도 있다면 기존 파일을 삭제합니다.
-                        await StorageManager.DeleteFile(place.ThumbnailImageUrl);
+                        await StorageManager.DeleteFile(PlaceContainer, place.ThumbnailImageUrl);
                     }
 
-                    var url = await StorageManager.UploadFile(place.ThumbnailFile);
+                    var url = await StorageManager.UploadFile(PlaceContainer, place.ThumbnailFile);
 
                     if (url != null)
                     {
@@ -290,10 +293,10 @@ namespace UMateAdmin.Controllers
                     if (place.PlaceImageUrl0 != null)
                     {
                         // 이미 저장된 파일이 있고, 새로 업로드된 파일도 있다면 기존 파일을 삭제합니다.
-                        await StorageManager.DeleteFile(place.PlaceImageUrl0);
+                        await StorageManager.DeleteFile(PlaceContainer, place.PlaceImageUrl0);
                     }
 
-                    var url = await StorageManager.UploadFile(place.PlaceImageFile0);
+                    var url = await StorageManager.UploadFile(PlaceContainer, place.PlaceImageFile0);
 
                     if (url != null)
                     {
@@ -314,10 +317,10 @@ namespace UMateAdmin.Controllers
                     if (place.PlaceImageUrl1 != null)
                     {
                         // 이미 저장된 파일이 있고, 새로 업로드된 파일도 있다면 기존 파일을 삭제합니다.
-                        await StorageManager.DeleteFile(place.PlaceImageUrl1);
+                        await StorageManager.DeleteFile(PlaceContainer, place.PlaceImageUrl1);
                     }
 
-                    var url = await StorageManager.UploadFile(place.PlaceImageFile1);
+                    var url = await StorageManager.UploadFile(PlaceContainer, place.PlaceImageFile1);
 
                     if (url != null)
                     {
@@ -338,10 +341,10 @@ namespace UMateAdmin.Controllers
                     if (place.PlaceImageUrl2 != null)
                     {
                         // 이미 저장된 파일이 있고, 새로 업로드된 파일도 있다면 기존 파일을 삭제합니다.
-                        await StorageManager.DeleteFile(place.PlaceImageUrl2);
+                        await StorageManager.DeleteFile(PlaceContainer, place.PlaceImageUrl2);
                     }
 
-                    var url = await StorageManager.UploadFile(place.PlaceImageFile2);
+                    var url = await StorageManager.UploadFile(PlaceContainer, place.PlaceImageFile2);
 
                     if (url != null)
                     {
@@ -362,10 +365,10 @@ namespace UMateAdmin.Controllers
                     if (place.PlaceImageUrl3 != null)
                     {
                         // 이미 저장된 파일이 있고, 새로 업로드된 파일도 있다면 기존 파일을 삭제합니다.
-                        await StorageManager.DeleteFile(place.PlaceImageUrl3);
+                        await StorageManager.DeleteFile(PlaceContainer, place.PlaceImageUrl3);
                     }
 
-                    var url = await StorageManager.UploadFile(place.PlaceImageFile3);
+                    var url = await StorageManager.UploadFile(PlaceContainer, place.PlaceImageFile3);
 
                     if (url != null)
                     {
@@ -386,10 +389,10 @@ namespace UMateAdmin.Controllers
                     if (place.PlaceImageUrl4 != null)
                     {
                         // 이미 저장된 파일이 있고, 새로 업로드된 파일도 있다면 기존 파일을 삭제합니다.
-                        await StorageManager.DeleteFile(place.PlaceImageUrl4);
+                        await StorageManager.DeleteFile(PlaceContainer, place.PlaceImageUrl4);
                     }
 
-                    var url = await StorageManager.UploadFile(place.PlaceImageFile4);
+                    var url = await StorageManager.UploadFile(PlaceContainer, place.PlaceImageFile4);
 
                     if (url != null)
                     {
@@ -410,10 +413,10 @@ namespace UMateAdmin.Controllers
                     if (place.PlaceImageUrl5 != null)
                     {
                         // 이미 저장된 파일이 있고, 새로 업로드된 파일도 있다면 기존 파일을 삭제합니다.
-                        await StorageManager.DeleteFile(place.PlaceImageUrl5);
+                        await StorageManager.DeleteFile(PlaceContainer, place.PlaceImageUrl5);
                     }
 
-                    var url = await StorageManager.UploadFile(place.PlaceImageFile5);
+                    var url = await StorageManager.UploadFile(PlaceContainer, place.PlaceImageFile5);
 
                     if (url != null)
                     {
@@ -487,7 +490,7 @@ namespace UMateAdmin.Controllers
             {
                 if (url != null)
                 {
-                    _ = StorageManager.DeleteFile(url);
+                    _ = StorageManager.DeleteFile(PlaceContainer, url);
                 }
             }
 

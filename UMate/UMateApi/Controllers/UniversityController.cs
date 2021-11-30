@@ -75,7 +75,7 @@ namespace UMateApi.Controllers
         }
 
 
-        [HttpGet("{name}")]
+        [HttpGet("name/{name}")]
         public async Task<ActionResult<UniversityResponse>> GetUniversity(string name)
         {
             var university = await _context.University

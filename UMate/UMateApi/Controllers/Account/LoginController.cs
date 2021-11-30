@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using UMateModel.Contexts;
 using UMateModel.Models;
 
 namespace UMateApi.Controllers
@@ -21,15 +23,18 @@ namespace UMateApi.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         public IConfiguration Configuration { get; }
+        private readonly ApplicationDbContext _context;
 
         public LoginController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             Configuration = configuration;
+            _context = context;
         }
 
         private string GetApiToken(ApplicationUser user)
@@ -76,6 +81,18 @@ namespace UMateApi.Controllers
                     var token = GetApiToken(user);
                     if (!token.Contains("fail"))
                     {
+                        var targetUniversity = await _context.University
+                            .Where(u => u.UniversityId == user.UniversityId)
+                            .FirstOrDefaultAsync();
+                        if (targetUniversity == null)
+                        {
+                            return Ok(new CommonResponse
+                            {
+                                Code = ResultCode.Fail,
+                                Message = "일치하는 대학교 정보를 찾을 수 없습니다."
+                            });
+                        }
+
                         return Ok(new LoginResponse
                         {
                             Code = ResultCode.Ok,
@@ -84,6 +101,7 @@ namespace UMateApi.Controllers
                             Token = token,
                             RealName = user.RealName,
                             NickName = user.NickName,
+                            UniversityName = targetUniversity.Name,
                             YearOfAdmission = user.YearOfAdmission
                         });
                     } else

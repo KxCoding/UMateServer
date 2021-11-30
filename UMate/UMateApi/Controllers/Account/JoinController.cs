@@ -20,10 +20,10 @@ namespace UMateApi.Controllers
     [ApiController]
     public class JoinController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         public IConfiguration Configuration { get; }
+        private readonly ApplicationDbContext _context;
 
         public JoinController(
             UserManager<ApplicationUser> userManager,

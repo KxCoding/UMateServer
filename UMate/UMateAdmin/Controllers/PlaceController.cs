@@ -31,7 +31,7 @@ namespace UMateAdmin.Controllers
 
         private StorageManager StorageManager = StorageManager.Shared;
 
-        private CloudBlobContainer PlaceContainer = StorageManager.GetContainer("place");
+        private CloudBlobContainer PlaceContainer = StorageManager.GetContainer("default");
 
         // GET: Place
         public async Task<IActionResult> Index(int? page)

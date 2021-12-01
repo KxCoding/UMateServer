@@ -25,7 +25,7 @@ namespace UMateAdmin.Service
         {
             IConfiguration config = StorageManager.Shared.Configuration;
 
-            var credentials = new StorageCredentials("umateblob", config.GetConnectionString("StorageAccessKey"));
+            var credentials = new StorageCredentials("umate", config.GetConnectionString("StorageAccessKey"));
             var account = new CloudStorageAccount(credentials, true);
             var client = account.CreateCloudBlobClient();
 

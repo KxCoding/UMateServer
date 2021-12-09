@@ -13,6 +13,10 @@ namespace UMateApi.Controllers.Account
     [ApiController]
     public class ValidationController : ControllerBase
     {
+        /// <summary>
+        /// 토큰이 유효한지 확인합니다.
+        /// </summary>
+        /// <returns> 서버 응답 코드 </returns>
         [HttpGet]
         public IActionResult Get()
         {

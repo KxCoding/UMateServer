@@ -37,7 +37,10 @@ namespace UMateApi.Controllers
             _context = context;
         }
 
-        // GET: PlaceReview
+        /// <summary>
+        /// 유저 아이디와 일치하는 상점 리뷰 데이터를 가져옵니다.
+        /// </summary>
+        /// <returns> 상점 리뷰 목록 응답 객체 </returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PlaceReview>>> GetPlaceReview()
         {
@@ -65,7 +68,11 @@ namespace UMateApi.Controllers
             });
         }
 
-        // GET: PlaceReview/5
+        /// <summary>
+        /// 상점 리뷰 아이디와 일치하는 상점 리뷰 데이터를 가져옵니다.
+        /// </summary>
+        /// <param name="id"> 검색할 상점 리뷰 아이디 </param>
+        /// <returns> 상점 리뷰 응답 객체 </returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<PlaceReview>> GetPlaceReview(int id)
         {
@@ -100,9 +107,12 @@ namespace UMateApi.Controllers
             });
         }
 
-        // PUT: PlaceReview/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// 저장된 상점 리뷰 데이터를 수정합니다.
+        /// </summary>
+        /// <param name="id"> 수정할 상점 리뷰 아이디 </param>
+        /// <param name="placeReview"> 새로 넣을 상점 리뷰 데이터 </param>
+        /// <returns> 리뷰 수정 응답 객체 </returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPlaceReview(int id, PlaceReviewPutData placeReview)
         {
@@ -161,9 +171,11 @@ namespace UMateApi.Controllers
             });
         }
 
-        // POST: PlaceReview
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// 상점 리뷰를 저장합니다.
+        /// </summary>
+        /// <param name="placeReview"> 저장할 상점 리뷰 데이터 </param>
+        /// <returns> 서버 응답 코드와 메시지 </returns>
         [HttpPost]
         public async Task<ActionResult<PlaceReview>> PostPlaceReview(PlaceReviewPostData placeReview)
         {
@@ -218,7 +230,11 @@ namespace UMateApi.Controllers
             });
         }
 
-        // DELETE: PlaceReview/5
+        /// <summary>
+        /// 저장된 상점 리뷰를 삭제합니다.
+        /// </summary>
+        /// <param name="id"> 삭제할 상점 리뷰 아이디 </param>
+        /// <returns> 서버 응답 코드와 메시지 </returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult<PlaceReview>> DeletePlaceReview(int id)
         {

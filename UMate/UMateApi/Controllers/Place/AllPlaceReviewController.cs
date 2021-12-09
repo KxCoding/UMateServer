@@ -25,7 +25,10 @@ namespace UMateApi.Controllers
             _context = context;
         }
 
-        // GET: api/PlaceReviewApi
+        /// <summary>
+        /// 전체 상점 리뷰 데이터를 가져옵니다.
+        /// </summary>
+        /// <returns> 상점 리뷰 목록 응답 객체 </returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PlaceReview>>> GetPlaceReview()
         {

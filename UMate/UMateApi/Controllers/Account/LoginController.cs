@@ -18,53 +18,21 @@ namespace UMateApi.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class LoginController : ControllerBase
+    public class LoginController : CommonController
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        public IConfiguration Configuration { get; }
         private readonly ApplicationDbContext _context;
 
         public LoginController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IConfiguration configuration,
-            ApplicationDbContext context)
+            ApplicationDbContext context,
+            IConfiguration configuration) : base(configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            Configuration = configuration;
             _context = context;
-        }
-
-        private string GetApiToken(ApplicationUser user)
-        {
-            try
-            {
-                var claims = new[]
-                {
-                    new Claim(ClaimTypes.Name, user.Id),
-                    new Claim(ClaimTypes.NameIdentifier, user.Id),
-                    new Claim(ClaimTypes.Email, user.Email)
-                };
-
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtSecurityKey"]));
-                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-                var token = new JwtSecurityToken(
-                    Configuration["JwtIssuer"],
-                    Configuration["JwtAudience"],
-                    claims,
-                    expires: DateTime.UtcNow.AddMonths(2),
-                    signingCredentials: creds
-                    );
-
-                return new JwtSecurityTokenHandler().WriteToken(token);
-            }
-            catch
-            {
-                return "fail";
-            }
         }
 
         [HttpPost("email")]

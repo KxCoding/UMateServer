@@ -18,53 +18,21 @@ namespace UMateApi.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class JoinController : ControllerBase
+    public class JoinController : CommonController
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        public IConfiguration Configuration { get; }
         private readonly ApplicationDbContext _context;
 
         public JoinController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IConfiguration configuration,
-            ApplicationDbContext context)
+            ApplicationDbContext context,
+            IConfiguration configuration) : base(configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            Configuration = configuration;
             _context = context;
-        }
-
-        private string GetApiToken(ApplicationUser user)
-        {
-            try
-            {
-                var claims = new[]
-                {
-                    new Claim(ClaimTypes.Name, user.Id),
-                    new Claim(ClaimTypes.NameIdentifier, user.Id),
-                    new Claim(ClaimTypes.Email, user.Email)
-                };
-
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtSecurityKey"]));
-                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-                var token = new JwtSecurityToken(
-                    Configuration["JwtIssuer"],
-                    Configuration["JwtAudience"],
-                    claims,
-                    expires: DateTime.UtcNow.AddYears(1),
-                    signingCredentials: creds
-                    );
-
-                return new JwtSecurityTokenHandler().WriteToken(token);
-            }
-            catch
-            {
-                return "fail";
-            }
         }
 
         [HttpPost("email")]
@@ -79,25 +47,26 @@ namespace UMateApi.Controllers
                 UniversityId = data.UniversityId,
                 YearOfAdmission = data.YearOfAdmission,
                 EmailConfirmed = true,
+                JoinDate = DateTime.UtcNow,
                 UpdateDate = DateTime.UtcNow
             };
 
             var result = await _userManager.CreateAsync(user, data.Password);
 
-            var targetUniversity = await _context.University
-                .Where(u => u.UniversityId == data.UniversityId)
-                .FirstOrDefaultAsync();
-            if (targetUniversity == null)
-            {
-                return Ok(new CommonResponse
-                {
-                    Code = ResultCode.Fail,
-                    Message = "일치하는 대학교 정보를 찾을 수 없습니다."
-                });
-            }
-
             if (result.Succeeded)
             {
+                var targetUniversity = await _context.University
+                .Where(u => u.UniversityId == data.UniversityId)
+                .FirstOrDefaultAsync();
+                if (targetUniversity == null)
+                {
+                    return Ok(new CommonResponse
+                    {
+                        Code = ResultCode.Fail,
+                        Message = "일치하는 대학교 정보를 찾을 수 없습니다."
+                    });
+                }
+
                 return Ok(new JoinResponse
                 {
                     Code = ResultCode.Ok,

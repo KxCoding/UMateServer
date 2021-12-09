@@ -25,10 +25,5 @@ namespace UMateModel.Models
         /// 입학 연도
         /// </summary>
         public string YearOfAdmission { get; set; }
-
-        /// <summary>
-        /// 가입 일자
-        /// </summary>
-        public DateTime JoinDate { get; set; }
     }
 }
